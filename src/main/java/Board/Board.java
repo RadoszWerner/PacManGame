@@ -32,7 +32,6 @@ public class Board {
                     Point point = new Point(j,i);
                     points.add(point);
                 }
-
             }
         }
         boardItems.addAll(walls);
@@ -78,7 +77,6 @@ public class Board {
         pacManWallCollision = new PacManWallCollision(walls, slowPacMan);
         generateWalls();
         boardItems.add(slowPacMan);
-
         JFrame frame = new JFrame("PacMan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new GridBagLayout());
@@ -87,14 +85,11 @@ public class Board {
             @Override
             public void keyTyped(KeyEvent e) {
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
                     slowPacMan.setMoving(true);
                     slowPacMan.direction = e.getKeyCode();
                 }
-
-
             @Override
             public void keyReleased(KeyEvent e) {
             }

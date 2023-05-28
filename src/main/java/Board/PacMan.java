@@ -1,35 +1,19 @@
 package Board;
 
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import lombok.Getter;
+import lombok.Setter;
 
 public class PacMan extends BoardItem implements DynamicItem, Runnable{
-    private int speed;
-    boolean isMoving;
+    @Getter @Setter int speed;
+    @Getter @Setter boolean isMoving;
+    @Getter @Setter int direction;
 
-    int direction;
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public boolean isMoving() {
-        return isMoving;
-    }
-
-    public void setMoving(boolean moving) {
-        isMoving = moving;
-    }
 
     public PacMan(int x, int y, Color color) {
         super(x, y, color);
     }
-
-
     @Override
     public void moveRight() {
 
@@ -68,13 +52,6 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
                 } else{
                     isMoving = false;
                 }
-
-
-
-
-
-
-
     }
 
     @Override
@@ -82,10 +59,9 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
         while (true){
             if(isMoving){
                 makeMove();
-
             }
             try {
-                Thread.sleep(1000/30 ); // Opóźnienie 60 FPS
+                Thread.sleep(1000/30 );
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

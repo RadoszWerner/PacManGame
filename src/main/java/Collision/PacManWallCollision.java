@@ -1,13 +1,12 @@
 package Collision;
 
 import Board.PacMan;
-import Board.SlowPacMan;
 import Board.Wall;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class PacManWallCollision {
+public class PacManWallCollision implements Collision {
     ArrayList<Wall> walls;
     PacMan pacMan;
 
