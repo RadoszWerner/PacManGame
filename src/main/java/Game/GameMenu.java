@@ -1,7 +1,16 @@
 package Game;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.swing.*;
+import java.awt.*;
+
 public class GameMenu {
-    private GameEngine gameEngine;
+   @Getter @Setter GameEngine gameEngine;
 
+    public GameMenu() {
 
+        new GameEngine();
+    }
 }

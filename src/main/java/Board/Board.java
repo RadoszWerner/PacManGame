@@ -21,7 +21,58 @@ public class Board {
      ArrayList<JPanel> panels;
      ArrayList<Wall> walls;
      PacManWallCollision pacManWallCollision;
+     JFrame gameFrame;
 
+     void listenToKeyboard(){
+         gameFrame.addKeyListener(new KeyListener() {
+             @Override
+             public void keyTyped(KeyEvent e) {
+             }
+             @Override
+             public void keyPressed(KeyEvent e) {
+                 slowPacMan.setMoving(true);
+                 slowPacMan.direction = e.getKeyCode();
+             }
+             @Override
+             public void keyReleased(KeyEvent e) {
+             }
+         });
+     }
+     void setGameFrameSize(){
+         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+         int screenWidth = (int) screenSize.getWidth();
+         int screenHeight = (int) screenSize.getHeight();
+         gameFrame.setSize(screenWidth, screenHeight);
+     }
+     void setGameFrameProperties(){
+         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         gameFrame.getContentPane().setLayout(new GridBagLayout());
+         gameFrame.setFocusable(true);
+     }
+     void initializeGameFrame(){
+         gameFrame = new JFrame("PacMan");
+         setGameFrameProperties();
+         setGameFrameSize();
+         listenToKeyboard();
+
+     }
+    void initializeBoardItems(){
+        slowPacMan = new SlowPacMan(5,5);
+        boardItems = new ArrayList<>();
+        points = new ArrayList<>();
+        walls = new ArrayList<>();
+    }
+    void initializeCollisions(){
+        pacManWallCollision = new PacManWallCollision(walls, slowPacMan);
+    }
+    void initializePanels(){
+        panels = new ArrayList<>();
+    }
+    void initializeBoardElements(){
+        initializePanels();
+        initializeBoardItems();
+        initializeCollisions();
+    }
     void generateWalls(){
         for (int i = 0; i <squareAmountY ; i++) {
             for (int j = 0; j < squareAmountX; j++) {
@@ -37,73 +88,51 @@ public class Board {
         boardItems.addAll(walls);
         boardItems.addAll(points);
     }
-
-    void generatePanels(JFrame frame){
-        for (int i = 0; i <squareAmountY ; i++) {
-            for (int j = 0; j < squareAmountX; j++) {
+    void generateBoardItems(){
+        generateWalls();
+        boardItems.add(slowPacMan);
+    }
+    void generatePanels(){
         int squareWidth = width / squareAmountX;
         int squareHeight = height / squareAmountY;
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(squareWidth, squareHeight));
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = j;
-        constraints.gridy = i;
-        frame.getContentPane().add(panel, constraints);
-        panels.add(panel);}}
-    }
-    void generateBoard(JFrame frame){
-        panels = new ArrayList<>();
-        generatePanels(frame);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
-        frame.setSize(screenWidth, screenHeight);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        for (int i = 0; i <squareAmountY ; i++) {
+            for (int j = 0; j < squareAmountX; j++) {
+                JPanel panel = new JPanel();
+                panel.setPreferredSize(new Dimension(squareWidth, squareHeight));
+                GridBagConstraints constraints = new GridBagConstraints();
+                constraints.gridx = j;
+                constraints.gridy = i;
+                gameFrame.add(panel, constraints);
+                panels.add(panel);
+            }
+        }
     }
 
+    void generateBoard(){
+        initializeBoardElements();
+        generateBoardItems();
+        generatePanels();
+
+    }
     void updateBoard(){
         pacManWallCollision.checkCollision();
         for (BoardItem boardItem:boardItems) {
             panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
         }
+        gameFrame.setVisible(true);
     }
-
-    public Board() {
-        slowPacMan = new SlowPacMan(5,5);
-        boardItems = new ArrayList<>();
-        points = new ArrayList<>();
-        walls = new ArrayList<>();
-        pacManWallCollision = new PacManWallCollision(walls, slowPacMan);
-        generateWalls();
-        boardItems.add(slowPacMan);
-        JFrame frame = new JFrame("PacMan");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new GridBagLayout());
-        frame.setFocusable(true);
-        frame.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                    slowPacMan.setMoving(true);
-                    slowPacMan.direction = e.getKeyCode();
-                }
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-        generateBoard(frame);
+    void startGame(){
         updateBoard();
         Thread gameThread = new Thread(slowPacMan);
         gameThread.start();
-                while (true){
-                    if(slowPacMan.isMoving()){
-                        updateBoard();
-
-                    }
-                }
+        while (true){
+            updateBoard();
+        }
     }
 
+    public Board() {
+        initializeGameFrame();
+        generateBoard();
+        startGame();
+    }
 }
