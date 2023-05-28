@@ -1,5 +1,7 @@
 package Board;
 
+import Collision.PacManWallCollision;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,33 +17,26 @@ public class Board {
     final  int squareAmountY = 36;
      SlowPacMan slowPacMan;
      ArrayList<BoardItem> boardItems;
-
      ArrayList<Point> points;
-
      ArrayList<JPanel> panels;
-
      ArrayList<Wall> walls;
+     PacManWallCollision pacManWallCollision;
 
-    void generatePoints(){
-        for (int i = 0; i <squareAmountY ; i++) {
-            for (int j = 0; j < squareAmountX; j++) {
-                Point point = new Point(j,i);
-                points.add(point);
-            }
-        }
-        boardItems.addAll(points);
-    }
     void generateWalls(){
         for (int i = 0; i <squareAmountY ; i++) {
             for (int j = 0; j < squareAmountX; j++) {
                 if(i==0 || j==0 || i ==squareAmountY-1 || j==squareAmountX-1){
                     Wall wall = new Wall(j,i);
                     walls.add(wall);
+                } else {
+                    Point point = new Point(j,i);
+                    points.add(point);
                 }
 
             }
         }
         boardItems.addAll(walls);
+        boardItems.addAll(points);
     }
 
     void generatePanels(JFrame frame){
@@ -59,8 +54,6 @@ public class Board {
     }
     void generateBoard(JFrame frame){
         panels = new ArrayList<>();
-
-
         generatePanels(frame);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
@@ -71,7 +64,7 @@ public class Board {
     }
 
     void updateBoard(){
-        
+        pacManWallCollision.checkCollision();
         for (BoardItem boardItem:boardItems) {
             panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
         }
@@ -82,17 +75,14 @@ public class Board {
         boardItems = new ArrayList<>();
         points = new ArrayList<>();
         walls = new ArrayList<>();
-        boardItems.add(slowPacMan);
+        pacManWallCollision = new PacManWallCollision(walls, slowPacMan);
         generateWalls();
-        generatePoints();
-
+        boardItems.add(slowPacMan);
 
         JFrame frame = new JFrame("PacMan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new GridBagLayout());
-
         frame.setFocusable(true);
-
         frame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -116,6 +106,7 @@ public class Board {
                 while (true){
                     if(slowPacMan.isMoving()){
                         updateBoard();
+
                     }
                 }
     }

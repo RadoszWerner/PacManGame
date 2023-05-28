@@ -11,6 +11,12 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
     private int speed;
     boolean isMoving;
 
+    int direction;
+
+    public int getDirection() {
+        return direction;
+    }
+
     public boolean isMoving() {
         return isMoving;
     }
@@ -22,7 +28,7 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
     public PacMan(int x, int y, Color color) {
         super(x, y, color);
     }
-    int direction;
+
 
     @Override
     public void moveRight() {
@@ -76,6 +82,7 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
         while (true){
             if(isMoving){
                 makeMove();
+
             }
             try {
                 Thread.sleep(1000/30 ); // Opóźnienie 60 FPS
