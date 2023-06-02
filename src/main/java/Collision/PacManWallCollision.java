@@ -2,6 +2,7 @@ package Collision;
 
 import Board.PacMan;
 import Board.Wall;
+import Utils.DirectionChecker;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -11,22 +12,22 @@ public class PacManWallCollision implements Collision {
     PacMan pacMan;
 
     public void checkUpCollision(Wall wall){
-        if(pacMan.getX() == wall.getX() && pacMan.getY()-1 == wall.getY()){
+        if(DirectionChecker.checkUp(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
             pacMan.setMoving(false);
         }
     }
     public void checkDownCollision(Wall wall){
-        if(pacMan.getX() == wall.getX() && pacMan.getY()+1 == wall.getY()){
+        if(DirectionChecker.checkDown(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
             pacMan.setMoving(false);
         }
     }
     public void checkLeftCollision(Wall wall){
-        if(pacMan.getX()-1 == wall.getX() && pacMan.getY() == wall.getY()){
+        if(DirectionChecker.checkLeft(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
             pacMan.setMoving(false);
         }
     }
     public void checkRightCollision(Wall wall){
-        if(pacMan.getX()+1 == wall.getX() && pacMan.getY() == wall.getY()){
+        if(DirectionChecker.checkRight(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
             pacMan.setMoving(false);
         }
     }

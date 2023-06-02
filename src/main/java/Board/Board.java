@@ -1,6 +1,9 @@
 package Board;
 
 import Collision.PacManWallCollision;
+import Utils.DirectionChecker;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,13 +17,14 @@ public class Board {
     final  int height = 900;
     final  int squareAmountX = 32;
     final  int squareAmountY = 18;
-     SlowPacMan slowPacMan;
-     ArrayList<BoardItem> boardItems;
-     ArrayList<Point> points;
-     ArrayList<BoardItem> notBackground;
-     ArrayList<JPanel> panels;
-     ArrayList<Wall> walls;
-     PacManWallCollision pacManWallCollision;
+     @Getter @Setter SlowPacMan slowPacMan;
+    @Getter @Setter ArrayList<DynamicItem> dynamicItems;
+    @Getter @Setter ArrayList<BoardItem> boardItems;
+    @Getter @Setter ArrayList<Point> points;
+    @Getter @Setter ArrayList<BoardItem> notBackground;
+    @Getter @Setter ArrayList<JPanel> panels;
+    @Getter @Setter ArrayList<Wall> walls;
+
      JFrame gameFrame;
 
      void listenToKeyboard(){
@@ -58,13 +62,11 @@ public class Board {
      }
     void initializeBoardItems(){
         slowPacMan = new SlowPacMan(3,14);
+        dynamicItems = new ArrayList<>();
         boardItems = new ArrayList<>();
         points = new ArrayList<>();
         walls = new ArrayList<>();
         notBackground = new ArrayList<>();
-    }
-    void initializeCollisions(){
-        pacManWallCollision = new PacManWallCollision();
     }
     void initializePanels(){
         panels = new ArrayList<>();
@@ -72,11 +74,9 @@ public class Board {
     void initializeBoardElements(){
         initializePanels();
         initializeBoardItems();
-        initializeCollisions();
     }
-
     void generateWalls(){
-         walls = new ArrayList<>();
+        walls = new ArrayList<>();
         walls.add(new Wall(14,1));
         walls.add(new Wall(17,1));
         walls.add(new Wall(24,1));
@@ -201,8 +201,7 @@ public class Board {
 
 
     }
-
-    void generateBoarders(){
+    void generateBorders(){
         for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
             for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
                 if(yIndex==0 || xIndex==0 || yIndex ==squareAmountY-1 || xIndex==squareAmountX-1){
@@ -222,7 +221,7 @@ public class Board {
         return isBgc;
     }
     void generateBackground(){
-         points = new ArrayList<>();
+        points = new ArrayList<>();
         for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
             for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
                 if(isBackground(xIndex, yIndex)){
@@ -231,27 +230,16 @@ public class Board {
                 }
             }
         }
-
     }
     void generateBoardItems(){
-         boardItems = new ArrayList<>();
-         notBackground = new ArrayList<>();
         generateWalls();
-        generateBoarders();
-
+        generateBorders();
         notBackground.addAll(walls);
-//        notBackground.add(slowPacMan);
         generateBackground();
-
         boardItems.addAll(points);
-
         boardItems.addAll(walls);
         boardItems.add(slowPacMan);
-
-
     }
-
-
     void generatePanels(){
         int squareWidth = width / squareAmountX;
         int squareHeight = height / squareAmountY;
@@ -267,63 +255,47 @@ public class Board {
             }
         }
     }
-
     void generateBoard(){
         initializeBoardElements();
         generateBoardItems();
         generatePanels();
+
         for (BoardItem boardItem:boardItems) {
                 panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
-
         }
 
     }
     boolean isUp(int x, int y){
-         return slowPacMan.getX() == x && slowPacMan.getY()-1 == y;
+         return DirectionChecker.checkUp(slowPacMan.getX(), slowPacMan.getY(), x,y);
     }
-
     boolean isDown(int x, int y){
-        return slowPacMan.getX() == x && slowPacMan.getY()+1 == y;
+        return DirectionChecker.checkDown(slowPacMan.getX(), slowPacMan.getY(), x,y);
     }
     boolean isLeft(int x, int y){
-        return slowPacMan.getX()+1 == x && slowPacMan.getY() == y;
+        return DirectionChecker.checkLeft(slowPacMan.getX(), slowPacMan.getY(), x,y);
     }
     boolean isRight(int x, int y){
-        return slowPacMan.getX()-1 == x && slowPacMan.getY() == y;
+        return DirectionChecker.checkRight(slowPacMan.getX(), slowPacMan.getY(), x,y);
     }
     boolean isNearPacMan(int x,int y){
          return (slowPacMan.getX() == x && slowPacMan.getY() == y || isLeft(x,y) || isRight(x,y) || isUp(x,y) || isDown(x,y));
     }
+    void updateBoardItems(){
+        boardItems.removeAll(points);
+        generateBackground();
+        boardItems.addAll(0, points);
+    }
     public void updateBoard(){
-//        System.out.println("x: "+ slowPacMan.getX() + " y: " + slowPacMan.getY());
-        pacManWallCollision.checkCollision(walls, slowPacMan);
-
-        generateBoardItems();
+        updateBoardItems();
         for (BoardItem boardItem:boardItems) {
             if(isNearPacMan(boardItem.getX(), boardItem.getY())){
                 panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
-
             }
         }
-
-//
-
-        gameFrame.setVisible(true);
+    gameFrame.setVisible(true);
     }
-    void startGame(){
-        updateBoard();
-        Thread gameThread = new Thread(slowPacMan);
-        gameThread.start();
-        while (true){
-            updateBoard();
-//            System.out.println("x: "+ slowPacMan.getX() + " y: " + slowPacMan.getY());
-
-        }
-    }
-
     public Board() {
         initializeGameFrame();
         generateBoard();
-        startGame();
     }
 }

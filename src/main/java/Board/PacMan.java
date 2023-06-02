@@ -14,12 +14,10 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
 
 
     public PacMan(int x, int y, Color color) {
-
         super(x, y, color);
     }
     @Override
     public void moveRight() {
-
         setX(getX()+1);
     }
 
@@ -65,7 +63,7 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
                 makeMove();
             }
             try {
-                Thread.sleep(1000/30 );
+                Thread.sleep(2000/30 );
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
