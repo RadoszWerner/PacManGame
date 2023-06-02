@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class PacManWallCollision implements Collision {
-    ArrayList<Wall> walls;
     PacMan pacMan;
 
     public void checkUpCollision(Wall wall){

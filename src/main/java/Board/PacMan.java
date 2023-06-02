@@ -3,7 +3,7 @@ package Board;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import Collision.PacManWallCollision;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +11,6 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
     @Getter @Setter int speed;
     @Getter @Setter boolean isMoving;
     @Getter @Setter int direction;
-
-
     public PacMan(int x, int y, Color color) {
         super(x, y, color);
     }
@@ -57,7 +55,6 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
 
     @Override
     public void run() {
-
         while (true){
             if(isMoving){
                 makeMove();

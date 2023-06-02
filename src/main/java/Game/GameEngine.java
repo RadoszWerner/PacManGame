@@ -5,13 +5,13 @@ import Collision.PacManWallCollision;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameEngine {
     Board board;
     @Getter @Setter int points;
     @Getter @Setter int time;
+    boolean gameOver;
     ArrayList<Thread> gameThreads;
     PacManWallCollision pacManWallCollision;
     void initializeCollisions(){
@@ -27,7 +27,7 @@ public class GameEngine {
         }
     }
     void play(){
-        while (true){
+        while (!gameOver){
             pacManWallCollision.checkCollision(board.getWalls(), board.getSlowPacMan());
             board.updateBoard();
         }
@@ -41,6 +41,7 @@ public class GameEngine {
 
     }
     public GameEngine() {
+        gameOver = false;
         board = new Board();
         startGame();
 

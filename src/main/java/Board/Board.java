@@ -1,6 +1,5 @@
 package Board;
 
-import Collision.PacManWallCollision;
 import Utils.DirectionChecker;
 import lombok.Getter;
 import lombok.Setter;
@@ -214,8 +213,9 @@ public class Board {
     boolean isBackground(int x, int y){
         boolean isBgc = true;
         for (BoardItem boardItem:notBackground) {
-            if(x==boardItem.getX() && y==boardItem.getY()){
-                isBgc=false;
+            if (x == boardItem.getX() && y == boardItem.getY()) {
+                isBgc = false;
+                break;
             }
         }
         return isBgc;
