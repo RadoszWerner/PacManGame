@@ -4,8 +4,7 @@ import Collision.PacManWallCollision;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -74,13 +73,13 @@ public class Board {
         initializeCollisions();
     }
     void generateWalls(){
-        for (int i = 0; i <squareAmountY ; i++) {
-            for (int j = 0; j < squareAmountX; j++) {
-                if(i==0 || j==0 || i ==squareAmountY-1 || j==squareAmountX-1){
-                    Wall wall = new Wall(j,i);
+        for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
+            for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
+                if(yIndex==0 || xIndex==0 || yIndex ==squareAmountY-1 || xIndex==squareAmountX-1){
+                    Wall wall = new Wall(xIndex,yIndex);
                     walls.add(wall);
                 } else {
-                    Point point = new Point(j,i);
+                    Point point = new Point(xIndex,yIndex);
                     points.add(point);
                 }
             }
@@ -95,13 +94,13 @@ public class Board {
     void generatePanels(){
         int squareWidth = width / squareAmountX;
         int squareHeight = height / squareAmountY;
-        for (int i = 0; i <squareAmountY ; i++) {
-            for (int j = 0; j < squareAmountX; j++) {
+        for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
+            for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
                 JPanel panel = new JPanel();
                 panel.setPreferredSize(new Dimension(squareWidth, squareHeight));
                 GridBagConstraints constraints = new GridBagConstraints();
-                constraints.gridx = j;
-                constraints.gridy = i;
+                constraints.gridx = xIndex;
+                constraints.gridy = yIndex;
                 gameFrame.add(panel, constraints);
                 panels.add(panel);
             }
@@ -114,7 +113,7 @@ public class Board {
         generatePanels();
 
     }
-    void updateBoard(){
+    public void updateBoard(){
         pacManWallCollision.checkCollision();
         for (BoardItem boardItem:boardItems) {
             panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
