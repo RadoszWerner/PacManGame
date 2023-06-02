@@ -10,10 +10,6 @@ public class PacManWallCollision implements Collision {
     ArrayList<Wall> walls;
     PacMan pacMan;
 
-    public PacManWallCollision(ArrayList<Wall> walls, PacMan pacMan) {
-        this.walls = walls;
-        this.pacMan = pacMan;
-    }
     public void checkUpCollision(Wall wall){
         if(pacMan.getX() == wall.getX() && pacMan.getY()-1 == wall.getY()){
             pacMan.setMoving(false);
@@ -34,7 +30,8 @@ public class PacManWallCollision implements Collision {
             pacMan.setMoving(false);
         }
     }
-    public void checkCollision(){
+    public void checkCollision(ArrayList<Wall> walls, PacMan pacMan){
+        this.pacMan = pacMan;
         for (Wall wall:walls) {
             if(pacMan.getDirection() == KeyEvent.VK_LEFT){
                 checkLeftCollision(wall);
