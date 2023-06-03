@@ -35,6 +35,7 @@ public class GameEngine {
         }
     }
     void play(){
+        board.updateBoard();
         while (!gameOver){
 
             for (Collision collision:collisions) {
@@ -55,6 +56,7 @@ public class GameEngine {
     public GameEngine()  {
         gameOver = false;
         board = new Board();
+
         startGame();
     }
 }

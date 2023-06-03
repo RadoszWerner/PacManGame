@@ -1,12 +1,11 @@
 package org.example;
 
-import Board.Board;
-import Game.GameMenager;
+import Game.GameManager;
 
 
 public class Main {
     public static void main(String[] args) {
-        new GameMenager();
+        new GameManager();
         }
 
 }

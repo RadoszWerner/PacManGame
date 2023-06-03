@@ -1,12 +1,11 @@
 package Game;
 
+import Board.Board;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GameMenu {
    @Getter @Setter GameEngine gameEngine;
@@ -16,28 +15,26 @@ public class GameMenu {
    JButton scoreBoard;
    JButton exitGame;
 
+   boolean isStartGame;
+
     public GameMenu()  {
         initializeGameFrame();
         setGameFrameSize();
         setGameFrameProperties();
         initializeMenu();
-
+        isStartGame = false;
+    while (!isStartGame){
+        System.out.println("dupa");
+    }
 
     }
     private void initializeButtons() {
         startGame = new JButton("Start Game!");
         scoreBoard = new JButton("Best Scores");
         exitGame = new JButton("Exit game");
-//        new GameEngine();
         startGame.addActionListener(e -> {
-//            GameEngine game= new GameEngine();
+            isStartGame = true;
 
-            gameFrame.dispose();
-//            SwingUtilities.invokeLater(() -> new GameEngine());
-            startGame.setEnabled(false);
-            new GameEngine();
-            startGame = null;
-//            game.startGame();
         });
     }
     void initializeMenu(){

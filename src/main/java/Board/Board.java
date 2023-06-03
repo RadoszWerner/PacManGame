@@ -50,14 +50,14 @@ public class Board {
          int screenWidth = (int) screenSize.getWidth();
          int screenHeight = (int) screenSize.getHeight();
          gameFrame.setSize(screenWidth, screenHeight);
-         System.out.println("dupa");
+
      }
      void setGameFrameProperties(){
          gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          gameFrame.getContentPane().setLayout(new GridBagLayout());
          gameFrame.setFocusable(true);
          gameFrame.requestFocus();
-         System.out.println("dupa2");
+
 
      }
      void initializeGameFrame(){
@@ -300,7 +300,7 @@ public class Board {
     void drawItem(int x, int y, Color color){
         int panelIndex = CartesianHelper.getIndexByCoordinates(x,y,squareAmountX);
         panels.get(panelIndex).setBackground(color);
-        System.out.println("dupa");
+
 
     }
     void generateBoard()  {
@@ -341,6 +341,7 @@ public class Board {
     }
     public void updateBoard(){
         gameFrame.requestFocus();
+        System.out.println(gameFrame.isActive());
         for (BoardItem boardItem:boardItems) {
             int x = boardItem.getX();
             int y = boardItem.getY();
@@ -350,6 +351,7 @@ public class Board {
         }
         updateBoardItems();
         gameFrame.setVisible(true);
+        gameFrame.repaint();
     }
     public Board()  {
         initializeGameFrame();
