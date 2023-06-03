@@ -8,11 +8,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class PacMan extends BoardItem implements DynamicItem, Runnable{
-    @Getter @Setter int speed;
+    @Getter @Setter int delay;
     @Getter @Setter boolean isMoving;
     @Getter @Setter int direction;
-    public PacMan(int x, int y, Color color) {
+    public PacMan(int x, int y, Color color, int speed) {
         super(x, y, color);
+        delay = 1000/speed;
     }
     @Override
     public void moveRight() {
@@ -60,7 +61,7 @@ public class PacMan extends BoardItem implements DynamicItem, Runnable{
                 makeMove();
             }
             try {
-                Thread.sleep(2000/30 );
+                Thread.sleep(delay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package Board;
 
+import Utils.CartesianHelper;
 import Utils.DirectionChecker;
 import lombok.Getter;
 import lombok.Setter;
@@ -264,13 +265,17 @@ public class Board {
             }
         }
     }
+
+    void drawItem(int x, int y, Color color){
+        int panelIndex = CartesianHelper.getIndexByCoordinates(x,y,squareAmountX);
+        panels.get(panelIndex).setBackground(color);
+    }
     void generateBoard()  {
         initializeBoardElements();
         generateBoardItems();
         generatePanels();
-
         for (BoardItem boardItem:boardItems) {
-                panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
+                drawItem(boardItem.getX(),boardItem.getY(),boardItem.color);
         }
 
     }
@@ -279,7 +284,6 @@ public class Board {
         generateBackground();
         boardItems.addAll(0, points);
     }
-
     boolean checkIfNearToDynamicItem(BoardItem itemToCheck, int x,int y){
         int xToCheck = itemToCheck.getX();
         int yToCheck = itemToCheck.getY();
@@ -302,8 +306,10 @@ public class Board {
     public void updateBoard(){
         updateBoardItems();
         for (BoardItem boardItem:boardItems) {
-            if(isNearDynamicItem(boardItem.getX(), boardItem.getY())){
-                panels.get((boardItem.getY())*(squareAmountX)+boardItem.getX()).setBackground(boardItem.color);
+            int x = boardItem.getX();
+            int y = boardItem.getY();
+            if(isNearDynamicItem(x, y)){
+               drawItem(x,y,boardItem.color);
             }
         }
         gameFrame.setVisible(true);
