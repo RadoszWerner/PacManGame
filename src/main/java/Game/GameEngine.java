@@ -9,9 +9,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class GameEngine {
+public class GameEngine implements Runnable {
     Board board;
     @Getter @Setter int points;
     @Getter @Setter int time;
@@ -34,29 +36,43 @@ public class GameEngine {
             gameThread.start();
         }
     }
+    public void listenToKeyboard(){
+        board.getGameFrame().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                board.getSlowPacMan().setPlannedDirection(e.getKeyCode());
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+    }
     void play(){
-        board.updateBoard();
         while (!gameOver){
-
             for (Collision collision:collisions) {
                 collision.checkCollision();
             }
             board.updateBoard();
-
         }
     }
-
     public void startGame(){
         initializeCollisions();
         initializeGameThreads();
         runThreads();
-        play();
+        listenToKeyboard();
+
 
     }
     public GameEngine()  {
         gameOver = false;
         board = new Board();
-
         startGame();
+    }
+    @Override
+    public void run() {
+        play();
     }
 }

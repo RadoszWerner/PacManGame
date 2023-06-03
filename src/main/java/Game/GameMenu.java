@@ -15,26 +15,22 @@ public class GameMenu {
    JButton scoreBoard;
    JButton exitGame;
 
-   boolean isStartGame;
 
     public GameMenu()  {
         initializeGameFrame();
         setGameFrameSize();
         setGameFrameProperties();
         initializeMenu();
-        isStartGame = false;
-    while (!isStartGame){
-        System.out.println("dupa");
-    }
-
     }
     private void initializeButtons() {
         startGame = new JButton("Start Game!");
         scoreBoard = new JButton("Best Scores");
         exitGame = new JButton("Exit game");
         startGame.addActionListener(e -> {
-            isStartGame = true;
-
+            GameEngine engine = new GameEngine();
+            Thread gameThread = new Thread(engine);
+            gameThread.start();
+            gameFrame.dispose();
         });
     }
     void initializeMenu(){

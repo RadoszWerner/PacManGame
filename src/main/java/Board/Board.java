@@ -29,22 +29,9 @@ public class Board {
     @Getter @Setter ArrayList<Floor> floors;
     @Getter @Setter ArrayList<Ghost> ghosts;
 
-     JFrame gameFrame;
+    @Getter @Setter JFrame gameFrame;
 
-     void listenToKeyboard(){
-         gameFrame.addKeyListener(new KeyListener() {
-             @Override
-             public void keyTyped(KeyEvent e) {
-             }
-             @Override
-             public void keyPressed(KeyEvent e) {
-                 slowPacMan.setPlannedDirection(e.getKeyCode());
-             }
-             @Override
-             public void keyReleased(KeyEvent e) {
-             }
-         });
-     }
+
      void setGameFrameSize(){
          Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
          int screenWidth = (int) screenSize.getWidth();
@@ -64,7 +51,7 @@ public class Board {
          gameFrame = new JFrame("PacMan");
          setGameFrameProperties();
          setGameFrameSize();
-         listenToKeyboard();
+
 
      }
     void initializePanels(){
@@ -314,7 +301,6 @@ public class Board {
 
     }
     void updateBoardItems(){
-
     boardItems.clear();
         addToBoardItems();
 
@@ -340,8 +326,8 @@ public class Board {
         return isNear;
     }
     public void updateBoard(){
-        gameFrame.requestFocus();
-        System.out.println(gameFrame.isActive());
+
+
         for (BoardItem boardItem:boardItems) {
             int x = boardItem.getX();
             int y = boardItem.getY();
@@ -351,7 +337,7 @@ public class Board {
         }
         updateBoardItems();
         gameFrame.setVisible(true);
-        gameFrame.repaint();
+
     }
     public Board()  {
         initializeGameFrame();
