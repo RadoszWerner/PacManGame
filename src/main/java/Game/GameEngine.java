@@ -36,6 +36,7 @@ public class GameEngine {
     }
     void play(){
         while (!gameOver){
+
             for (Collision collision:collisions) {
                 collision.checkCollision();
             }
