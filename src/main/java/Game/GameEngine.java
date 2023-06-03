@@ -15,7 +15,7 @@ public class GameEngine {
     ArrayList<Thread> gameThreads;
     PacManWallCollision pacManWallCollision;
     void initializeCollisions(){
-        pacManWallCollision = new PacManWallCollision();
+        pacManWallCollision = new PacManWallCollision( board.getSlowPacMan(), board.getWalls());
     }
     void initializeGameThreads(){
         gameThreads = new ArrayList<>();
@@ -28,7 +28,7 @@ public class GameEngine {
     }
     void play(){
         while (!gameOver){
-            pacManWallCollision.checkCollision(board.getWalls(), board.getSlowPacMan());
+            pacManWallCollision.checkCollision();
             board.updateBoard();
         }
     }
@@ -40,7 +40,7 @@ public class GameEngine {
         play();
 
     }
-    public GameEngine() {
+    public GameEngine()  {
         gameOver = false;
         board = new Board();
         startGame();

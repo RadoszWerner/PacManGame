@@ -9,7 +9,7 @@ import java.awt.*;
 public class GameMenu {
    @Getter @Setter GameEngine gameEngine;
 
-    public GameMenu() {
+    public GameMenu()  {
 
         new GameEngine();
     }

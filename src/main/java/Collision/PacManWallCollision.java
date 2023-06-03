@@ -1,14 +1,18 @@
 package Collision;
 
+import Board.BoardItem;
 import Board.PacMan;
 import Board.Wall;
 import Utils.DirectionChecker;
+import lombok.AllArgsConstructor;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+@AllArgsConstructor
 public class PacManWallCollision implements Collision {
     PacMan pacMan;
+    ArrayList<Wall> walls;
 
     public void checkUpCollision(Wall wall){
         if(DirectionChecker.checkUp(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
@@ -30,8 +34,7 @@ public class PacManWallCollision implements Collision {
             pacMan.setMoving(false);
         }
     }
-    public void checkCollision(ArrayList<Wall> walls, PacMan pacMan){
-        this.pacMan = pacMan;
+    public void checkCollision(){
         for (Wall wall:walls) {
             if(pacMan.getDirection() == KeyEvent.VK_LEFT){
                 checkLeftCollision(wall);
