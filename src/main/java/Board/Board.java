@@ -17,12 +17,13 @@ public class Board {
     final  int height = 900;
     final  int squareAmountX = 32;
     final  int squareAmountY = 18;
-     @Getter @Setter SlowPacMan slowPacMan;
+    @Getter @Setter SlowPacMan slowPacMan;
     @Getter @Setter ArrayList<DynamicItem> dynamicItems;
     @Getter @Setter ArrayList<BoardItem> boardItems;
     @Getter @Setter ArrayList<Point> points;
     @Getter @Setter ArrayList<JPanel> panels;
     @Getter @Setter ArrayList<Wall> walls;
+    @Getter @Setter ArrayList<Floor> floors;
 
      JFrame gameFrame;
 
@@ -68,6 +69,7 @@ public class Board {
         boardItems = new ArrayList<>();
         points = new ArrayList<>();
         walls = new ArrayList<>();
+        floors = new ArrayList<>();
     }
     void initializeBoardElements(){
         initializePanels();
@@ -241,14 +243,19 @@ public class Board {
             }
         }
     }
+    void addToBoardItems(){
+        boardItems.addAll(points);
+        boardItems.addAll(walls);
+        boardItems.addAll(floors);
+        boardItems.add(slowPacMan);
+
+    }
     void generateBoardItems()  {
         generateWalls();
         generateBorders();
         generateBackground();
-        boardItems.addAll(points);
-        boardItems.addAll(walls);
-        boardItems.add(slowPacMan);
         dynamicItems.add(slowPacMan);
+        addToBoardItems();
     }
     void generatePanels(){
         int squareWidth = width / squareAmountX;
@@ -280,9 +287,11 @@ public class Board {
 
     }
     void updateBoardItems(){
-        boardItems.removeAll(points);
-        generateBackground();
-        boardItems.addAll(0, points);
+
+    boardItems.clear();
+        addToBoardItems();
+
+
     }
     boolean checkIfNearToDynamicItem(BoardItem itemToCheck, int x,int y){
         int xToCheck = itemToCheck.getX();
@@ -304,7 +313,7 @@ public class Board {
         return isNear;
     }
     public void updateBoard(){
-        updateBoardItems();
+
         for (BoardItem boardItem:boardItems) {
             int x = boardItem.getX();
             int y = boardItem.getY();
@@ -312,6 +321,7 @@ public class Board {
                drawItem(x,y,boardItem.color);
             }
         }
+        updateBoardItems();
         gameFrame.setVisible(true);
     }
     public Board()  {
