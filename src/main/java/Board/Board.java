@@ -18,12 +18,14 @@ public class Board {
     final  int squareAmountX = 32;
     final  int squareAmountY = 18;
     @Getter @Setter SlowPacMan slowPacMan;
+    @Getter @Setter Blinky blinky;
     @Getter @Setter ArrayList<DynamicItem> dynamicItems;
     @Getter @Setter ArrayList<BoardItem> boardItems;
     @Getter @Setter ArrayList<Point> points;
     @Getter @Setter ArrayList<JPanel> panels;
     @Getter @Setter ArrayList<Wall> walls;
     @Getter @Setter ArrayList<Floor> floors;
+    @Getter @Setter ArrayList<Ghost> ghosts;
 
      JFrame gameFrame;
 
@@ -34,8 +36,8 @@ public class Board {
              }
              @Override
              public void keyPressed(KeyEvent e) {
-                 slowPacMan.setMoving(true);
-                 slowPacMan.direction = e.getKeyCode();
+
+                 slowPacMan.setPlannedDirection(e.getKeyCode());
              }
              @Override
              public void keyReleased(KeyEvent e) {
@@ -65,11 +67,13 @@ public class Board {
     }
     void initializeBoardItems(){
         slowPacMan = new SlowPacMan(3,14);
+        blinky = new Blinky(5,4);
         dynamicItems = new ArrayList<>();
         boardItems = new ArrayList<>();
         points = new ArrayList<>();
         walls = new ArrayList<>();
         floors = new ArrayList<>();
+        ghosts = new ArrayList<>();
     }
     void initializeBoardElements(){
         initializePanels();
@@ -243,19 +247,30 @@ public class Board {
             }
         }
     }
+    void generateGhosts(){
+        ghosts.add(blinky);
+    }
     void addToBoardItems(){
         boardItems.addAll(points);
         boardItems.addAll(walls);
         boardItems.addAll(floors);
         boardItems.add(slowPacMan);
+        boardItems.addAll(ghosts);
 
     }
+    void generateDynamicItems(){
+        dynamicItems.add(slowPacMan);
+        dynamicItems.addAll(ghosts);
+    }
     void generateBoardItems()  {
+
         generateWalls();
         generateBorders();
         generateBackground();
-        dynamicItems.add(slowPacMan);
+        generateGhosts();
+        generateDynamicItems();
         addToBoardItems();
+
     }
     void generatePanels(){
         int squareWidth = width / squareAmountX;
@@ -281,6 +296,7 @@ public class Board {
         initializeBoardElements();
         generateBoardItems();
         generatePanels();
+
         for (BoardItem boardItem:boardItems) {
                 drawItem(boardItem.getX(),boardItem.getY(),boardItem.color);
         }

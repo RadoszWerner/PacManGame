@@ -49,6 +49,5 @@ public class GameEngine {
         gameOver = false;
         board = new Board();
         startGame();
-
     }
 }

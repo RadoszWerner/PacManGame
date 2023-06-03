@@ -7,37 +7,17 @@ import java.awt.event.KeyEvent;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PacMan extends BoardItem implements DynamicItem, Runnable{
-    @Getter @Setter int delay;
+public class PacMan extends DynamicItem implements Runnable{
     @Getter @Setter boolean isMoving;
+    @Getter @Setter boolean canMove;
     @Getter @Setter int direction;
+    @Getter @Setter int plannedDirection;
     public PacMan(int x, int y, Color color, int speed) {
-        super(x, y, color);
-        delay = 1000/speed;
-    }
-    @Override
-    public void moveRight() {
-        setX(getX()+1);
-    }
-
-    @Override
-    public void moveLeft() {
-        setX(getX()-1);
-    }
-
-    @Override
-    public void moveUp() {
-        setY(getY()-1);
-    }
-
-    @Override
-    public void moveBottom() {
-        setY(getY()+1);
+        super(x, y, color, speed);
     }
 
     @Override
     public void makeMove() {
-        isMoving = true;
                 if(direction == KeyEvent.VK_RIGHT){
                     moveRight();
                 }

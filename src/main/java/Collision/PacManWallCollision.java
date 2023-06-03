@@ -14,37 +14,48 @@ public class PacManWallCollision implements Collision {
     PacMan pacMan;
     ArrayList<Wall> walls;
 
-    public void checkUpCollision(Wall wall){
-        if(DirectionChecker.checkUp(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
-            pacMan.setMoving(false);
-        }
+    boolean checkUpCollision(Wall wall){
+        return DirectionChecker.checkUp(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY());
     }
-    public void checkDownCollision(Wall wall){
-        if(DirectionChecker.checkDown(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
-            pacMan.setMoving(false);
-        }
+    boolean checkDownCollision(Wall wall){
+        return DirectionChecker.checkDown(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY());
     }
-    public void checkLeftCollision(Wall wall){
-        if(DirectionChecker.checkLeft(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
-            pacMan.setMoving(false);
-        }
+     boolean checkLeftCollision(Wall wall){
+         return DirectionChecker.checkLeft(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY());
     }
-    public void checkRightCollision(Wall wall){
-        if(DirectionChecker.checkRight(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY())){
-            pacMan.setMoving(false);
-        }
+     boolean checkRightCollision(Wall wall){
+        return DirectionChecker.checkRight(pacMan.getX(),  pacMan.getY(), wall.getX(), wall.getY());
+    }
+    void stopMoving(){
+        pacMan.setMoving(false);
+    }
+    void changeDirectionIfNoCollision(){
+         pacMan.setDirection(pacMan.getPlannedDirection());
+        pacMan.setMoving(true);
     }
     public void checkCollision(){
+        boolean isWall = false;
         for (Wall wall:walls) {
-            if(pacMan.getDirection() == KeyEvent.VK_LEFT){
-                checkLeftCollision(wall);
-            } else if(pacMan.getDirection() == KeyEvent.VK_RIGHT){
-                checkRightCollision(wall);
-            }else if(pacMan.getDirection() == KeyEvent.VK_UP){
-                checkUpCollision(wall);
-            }else if(pacMan.getDirection() == KeyEvent.VK_DOWN){
-                checkDownCollision(wall);
+            if(pacMan.getDirection() == KeyEvent.VK_LEFT && checkLeftCollision(wall)){
+                stopMoving();
+            }else if(pacMan.getDirection() == KeyEvent.VK_RIGHT && checkRightCollision(wall)){
+                stopMoving();
+            }else if(pacMan.getDirection() == KeyEvent.VK_UP && checkUpCollision(wall)){
+                stopMoving();
+            }else if(pacMan.getDirection() == KeyEvent.VK_DOWN && checkDownCollision(wall)){
+                stopMoving();
             }
+            if(pacMan.getPlannedDirection() == KeyEvent.VK_LEFT && checkLeftCollision(wall)){
+                isWall = true;
+            }else if(pacMan.getPlannedDirection() == KeyEvent.VK_RIGHT && checkRightCollision(wall)){
+                isWall = true;
+            }else if(pacMan.getPlannedDirection() == KeyEvent.VK_UP && checkUpCollision(wall)){
+                isWall = true;
+            }else if(pacMan.getPlannedDirection() == KeyEvent.VK_DOWN && checkDownCollision(wall)){
+                isWall = true;
+            }
+
         }
+        if(!isWall) changeDirectionIfNoCollision();
     }
 }
