@@ -19,6 +19,8 @@ public class Board {
     final  int squareAmountY = 18;
     @Getter @Setter SlowPacMan slowPacMan;
     @Getter @Setter Blinky blinky;
+    @Getter @Setter Clyde clyde;
+    @Getter @Setter Inky inky;
     @Getter @Setter ArrayList<DynamicItem> dynamicItems;
     @Getter @Setter ArrayList<BoardItem> boardItems;
     @Getter @Setter ArrayList<Point> points;
@@ -28,6 +30,7 @@ public class Board {
     @Getter @Setter ArrayList<Ghost> ghosts;
 
      JFrame gameFrame;
+//     JPanel gamePanel;
 
      void listenToKeyboard(){
          gameFrame.addKeyListener(new KeyListener() {
@@ -68,6 +71,8 @@ public class Board {
     void initializeBoardItems(){
         slowPacMan = new SlowPacMan(3,14);
         blinky = new Blinky(5,4);
+        clyde = new Clyde(28,9);
+        inky = new Inky(15,16);
         dynamicItems = new ArrayList<>();
         boardItems = new ArrayList<>();
         points = new ArrayList<>();
@@ -249,6 +254,8 @@ public class Board {
     }
     void generateGhosts(){
         ghosts.add(blinky);
+        ghosts.add(inky);
+        ghosts.add(clyde);
     }
     void addToBoardItems(){
         boardItems.addAll(points);
@@ -321,7 +328,7 @@ public class Board {
     boolean isNearDynamicItem(int x, int y){
          boolean isNear = false;
          for (DynamicItem dynamicItem:dynamicItems) {
-            if(checkIfNearToDynamicItem((BoardItem) dynamicItem, x, y)){
+            if(checkIfNearToDynamicItem(dynamicItem, x, y)){
                 isNear = true;
                 break;
             }

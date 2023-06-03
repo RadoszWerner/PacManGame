@@ -1,11 +1,14 @@
 package Game;
 
 import Board.Board;
+import Collision.Collision;
 import Collision.PacManPointCollision;
 import Collision.PacManWallCollision;
+import Collision.PacManGhostCollision;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -14,11 +17,12 @@ public class GameEngine {
     @Getter @Setter int time;
     boolean gameOver;
     ArrayList<Thread> gameThreads;
-    PacManWallCollision pacManWallCollision;
-    PacManPointCollision pacManPointCollision;
+    ArrayList<Collision> collisions;
     void initializeCollisions(){
-        pacManWallCollision = new PacManWallCollision( board.getSlowPacMan(), board.getWalls());
-        pacManPointCollision = new PacManPointCollision(board.getSlowPacMan(), board.getPoints(), board.getFloors());
+        collisions = new ArrayList<>();
+        collisions.add(new PacManWallCollision(board.getSlowPacMan(), board.getWalls()));
+        collisions.add(new PacManPointCollision(board.getSlowPacMan(), board.getPoints(), board.getFloors()));
+        collisions.add(new PacManGhostCollision(board.getSlowPacMan(), board.getGhosts()));
 
     }
     void initializeGameThreads(){
@@ -32,9 +36,11 @@ public class GameEngine {
     }
     void play(){
         while (!gameOver){
-            pacManWallCollision.checkCollision();
-            pacManPointCollision.checkCollision();
+            for (Collision collision:collisions) {
+                collision.checkCollision();
+            }
             board.updateBoard();
+
         }
     }
 

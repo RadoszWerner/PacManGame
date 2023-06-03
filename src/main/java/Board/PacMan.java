@@ -12,8 +12,10 @@ public class PacMan extends DynamicItem implements Runnable{
     @Getter @Setter boolean canMove;
     @Getter @Setter int direction;
     @Getter @Setter int plannedDirection;
+    @Getter @Setter int lives;
     public PacMan(int x, int y, Color color, int speed) {
         super(x, y, color, speed);
+        lives=3;
     }
 
     @Override
@@ -47,5 +49,14 @@ public class PacMan extends DynamicItem implements Runnable{
             }
         }
 
+    }
+
+    public void die() {
+        lives--;
+        x=3;
+        y=14;
+        isMoving=false;
+        direction=0;
+        plannedDirection=0;
     }
 }
