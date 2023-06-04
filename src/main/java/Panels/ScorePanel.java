@@ -33,7 +33,7 @@ public class ScorePanel extends JPanel {
 
     }
 
-    public void updateAmounts(int scoreFromGame, int timeFromGame,int livesFromGame){
+    public void updateAmounts(int scoreFromGame, String timeFromGame,int livesFromGame){
         livesAmount.setText(String.valueOf(livesFromGame));
         timeAmount.setText(String.valueOf(timeFromGame));
         scoreAmount.setText(String.valueOf(scoreFromGame));

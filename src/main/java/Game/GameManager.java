@@ -14,6 +14,7 @@ public class GameManager {
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
         gameFrame.setSize(screenWidth, screenHeight);
+        gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     void setGameFrameProperties(){
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

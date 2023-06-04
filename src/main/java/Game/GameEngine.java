@@ -11,13 +11,15 @@ import lombok.Setter;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
     Board board;
     @Getter @Setter int points;
-    @Getter @Setter int time;
+    @Getter @Setter double time;
     JFrame gameFrame;
+    long startTime;
 
     ArrayList<Thread> gameThreads;
     ArrayList<Collision> collisions;
@@ -58,7 +60,10 @@ public class GameEngine implements Runnable {
             for (Collision collision:collisions) {
                 collision.checkCollision();
             }
-            board.getGamePanel().getScorePanel().updateAmounts(board.getFloors().size(), time, board.getSlowPacMan().getLives());
+            long currentTime = System.currentTimeMillis();
+            time =((double) currentTime - (double) startTime)/1000;
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            board.getGamePanel().getScorePanel().updateAmounts(board.getFloors().size(), decimalFormat.format(time), board.getSlowPacMan().getLives());
             board.updateBoard();
         }
         finishGame();
@@ -88,6 +93,7 @@ public class GameEngine implements Runnable {
     }
     @Override
     public void run() {
+        startTime = System.currentTimeMillis();
         play();
     }
 }
