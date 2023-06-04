@@ -1,5 +1,6 @@
 package Board;
 
+import Game.GameWindow;
 import Utils.CartesianHelper;
 import Utils.DirectionChecker;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Board {
+public class Board extends GameWindow {
     final  int width = 1600;
     final  int height = 900;
     final  int squareAmountX = 32;
@@ -29,31 +30,8 @@ public class Board {
     @Getter @Setter ArrayList<Floor> floors;
     @Getter @Setter ArrayList<Ghost> ghosts;
 
-    @Getter @Setter JFrame gameFrame;
 
 
-     void setGameFrameSize(){
-         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-         int screenWidth = (int) screenSize.getWidth();
-         int screenHeight = (int) screenSize.getHeight();
-         gameFrame.setSize(screenWidth, screenHeight);
-
-     }
-     void setGameFrameProperties(){
-         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         gameFrame.getContentPane().setLayout(new GridBagLayout());
-         gameFrame.setFocusable(true);
-         gameFrame.requestFocus();
-
-
-     }
-     void initializeGameFrame(){
-         gameFrame = new JFrame("PacMan");
-         setGameFrameProperties();
-         setGameFrameSize();
-
-
-     }
     void initializePanels(){
         panels = new ArrayList<>();
     }
@@ -326,8 +304,6 @@ public class Board {
         return isNear;
     }
     public void updateBoard(){
-
-
         for (BoardItem boardItem:boardItems) {
             int x = boardItem.getX();
             int y = boardItem.getY();
@@ -339,8 +315,8 @@ public class Board {
         gameFrame.setVisible(true);
 
     }
-    public Board()  {
-        initializeGameFrame();
+    public Board(JFrame gameFrame)  {
+        super(gameFrame);
         generateBoard();
         gameFrame.setVisible(true);
         gameFrame.requestFocus();

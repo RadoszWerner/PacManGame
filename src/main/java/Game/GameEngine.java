@@ -75,8 +75,8 @@ public class GameEngine implements Runnable {
 
 
     }
-    public GameEngine()  {
-        board = new Board();
+    public GameEngine(JFrame gameFrame)  {
+        board = new Board(gameFrame);
         startGame();
     }
     @Override

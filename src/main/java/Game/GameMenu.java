@@ -7,19 +7,16 @@ import lombok.Setter;
 import javax.swing.*;
 import java.awt.*;
 
-public class GameMenu {
+public class GameMenu extends GameWindow{
    @Getter @Setter GameEngine gameEngine;
-   JFrame gameFrame;
    JPanel menuPanel;
    JButton startGame;
    JButton scoreBoard;
    JButton exitGame;
 
 
-    public GameMenu()  {
-        initializeGameFrame();
-        setGameFrameSize();
-        setGameFrameProperties();
+    public GameMenu(JFrame gameFrame)  {
+        super(gameFrame);
         initializeMenu();
     }
     private void initializeButtons() {
@@ -27,10 +24,10 @@ public class GameMenu {
         scoreBoard = new JButton("Best Scores");
         exitGame = new JButton("Exit game");
         startGame.addActionListener(e -> {
-            GameEngine engine = new GameEngine();
+            GameEngine engine = new GameEngine(gameFrame);
             Thread gameThread = new Thread(engine);
+            gameFrame.getContentPane().remove(menuPanel);
             gameThread.start();
-            gameFrame.dispose();
         });
         exitGame.addActionListener(e -> {
             System.exit(0);
@@ -44,21 +41,5 @@ public class GameMenu {
         menuPanel.add(startGame);
         menuPanel.add(scoreBoard);
         menuPanel.add(exitGame);
-    }
-    void setGameFrameSize(){
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
-        gameFrame.setSize(screenWidth, screenHeight);
-    }
-    void setGameFrameProperties(){
-        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.getContentPane().setLayout(new GridBagLayout());
-        gameFrame.setFocusable(true);
-    }
-    void initializeGameFrame(){
-        gameFrame = new JFrame("PacMan");
-        setGameFrameProperties();
-        gameFrame.setVisible(true);
     }
 }
