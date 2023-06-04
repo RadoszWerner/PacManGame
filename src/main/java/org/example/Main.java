@@ -1,6 +1,6 @@
 package org.example;
 
-import Game.GameFrame;
+import GameGUI.GameFrame;
 
 
 public class Main {
