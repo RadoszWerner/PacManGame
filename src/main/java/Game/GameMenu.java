@@ -41,5 +41,6 @@ public class GameMenu extends GameWindow{
         menuPanel.add(startGame);
         menuPanel.add(scoreBoard);
         menuPanel.add(exitGame);
+        gameFrame.setVisible(true);
     }
 }

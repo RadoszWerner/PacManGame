@@ -15,7 +15,7 @@ public class PacMan extends DynamicItem implements Runnable{
     @Getter @Setter int lives;
     public PacMan(int x, int y, Color color, int speed) {
         super(x, y, color, speed);
-        lives=3;
+        lives=1;
     }
 
     @Override

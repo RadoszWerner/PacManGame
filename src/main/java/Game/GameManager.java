@@ -17,7 +17,7 @@ public class GameManager {
     }
     void setGameFrameProperties(){
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.getContentPane().setLayout(new GridBagLayout());
+        gameFrame.setLayout(new BorderLayout());
         gameFrame.setFocusable(true);
         gameFrame.requestFocus();
         gameFrame.setVisible(true);

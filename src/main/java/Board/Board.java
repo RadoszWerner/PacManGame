@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 import java.awt.event.KeyEvent;
@@ -18,6 +19,10 @@ public class Board extends GameWindow {
     final  int height = 900;
     final  int squareAmountX = 32;
     final  int squareAmountY = 18;
+    JPanel gamePanel;
+    JPanel boardPanel;
+    JPanel scorePanel;
+
     @Getter @Setter SlowPacMan slowPacMan;
     @Getter @Setter Blinky blinky;
     @Getter @Setter Clyde clyde;
@@ -31,7 +36,17 @@ public class Board extends GameWindow {
     @Getter @Setter ArrayList<Ghost> ghosts;
 
 
-
+    void initializeLayout(){
+        gamePanel=new JPanel();
+        boardPanel=new JPanel();
+        scorePanel=new JPanel();
+        gameFrame.getContentPane().add(gamePanel, BorderLayout.CENTER);
+        gamePanel.setLayout(new BorderLayout());
+        gamePanel.add(boardPanel, BorderLayout.WEST);
+        gamePanel.add(scorePanel, BorderLayout.EAST);
+        boardPanel.setLayout(new GridBagLayout());
+        gamePanel.setBorder(new EmptyBorder(10, 50, 10, 50));
+    }
     void initializePanels(){
         panels = new ArrayList<>();
     }
@@ -256,7 +271,7 @@ public class Board extends GameWindow {
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.gridx = xIndex;
                 constraints.gridy = yIndex;
-                gameFrame.add(panel, constraints);
+                boardPanel.add(panel, constraints);
                 panels.add(panel);
             }
         }
@@ -317,6 +332,7 @@ public class Board extends GameWindow {
     }
     public Board(JFrame gameFrame)  {
         super(gameFrame);
+        initializeLayout();
         generateBoard();
         gameFrame.setVisible(true);
         gameFrame.requestFocus();

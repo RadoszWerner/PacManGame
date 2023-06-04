@@ -17,6 +17,7 @@ public class GameEngine implements Runnable {
     Board board;
     @Getter @Setter int points;
     @Getter @Setter int time;
+    JFrame gameFrame;
 
     ArrayList<Thread> gameThreads;
     ArrayList<Collision> collisions;
@@ -66,6 +67,9 @@ public class GameEngine implements Runnable {
     }
     void finishGame(){
 
+
+        gameFrame.getContentPane().removeAll();
+        new GameOver(gameFrame);
     }
     public void startGame(){
         initializeCollisions();
@@ -76,6 +80,7 @@ public class GameEngine implements Runnable {
 
     }
     public GameEngine(JFrame gameFrame)  {
+        this.gameFrame = gameFrame;
         board = new Board(gameFrame);
         startGame();
     }
