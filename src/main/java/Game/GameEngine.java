@@ -58,6 +58,7 @@ public class GameEngine implements Runnable {
             for (Collision collision:collisions) {
                 collision.checkCollision();
             }
+            board.getGamePanel().getScorePanel().updateAmounts(board.getFloors().size(), time, board.getSlowPacMan().getLives());
             board.updateBoard();
         }
         finishGame();
@@ -80,6 +81,7 @@ public class GameEngine implements Runnable {
 
     }
     public GameEngine(JFrame gameFrame)  {
+        time = 100;
         this.gameFrame = gameFrame;
         board = new Board(gameFrame);
         startGame();
