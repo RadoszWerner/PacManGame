@@ -8,5 +8,5 @@ import javax.swing.*;
 @AllArgsConstructor
 public class GameWindow {
     @Getter
-    public JFrame gameFrame;
+    public GameFrame gameFrame;
 }

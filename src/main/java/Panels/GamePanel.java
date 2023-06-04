@@ -1,6 +1,7 @@
 package Panels;
 
 import Board.Board;
+import Game.GameFrame;
 import Game.GameOver;
 import lombok.Getter;
 
@@ -14,8 +15,8 @@ public class GamePanel extends JPanel {
     @Getter
     Board boardPanel;
     @Getter ScorePanel scorePanel;
-    JFrame gameFrame;
-    public GamePanel(JFrame gameFrame){
+    GameFrame gameFrame;
+    public GamePanel(GameFrame gameFrame){
         this.gameFrame = gameFrame;
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 50, 10, 50));

@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GameOver extends GameWindow {
     JPanel centralPanel;
-    public GameOver(JFrame gameFrame){
+    public GameOver(GameFrame gameFrame){
         super(gameFrame);
         initializeGameOver();
     }
