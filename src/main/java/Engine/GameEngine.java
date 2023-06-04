@@ -64,12 +64,8 @@ public class GameEngine implements Runnable {
         initializeCollisions();
         initializeGameThreads();
         runThreads();
-
-
-
     }
     public GameEngine(GamePanel gamePanel)  {
-        time = 100;
         this.gamePanel = gamePanel;
         board = gamePanel.getBoardPanel();
         scorePanel = gamePanel.getScorePanel();

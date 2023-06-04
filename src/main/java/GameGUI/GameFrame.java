@@ -28,12 +28,15 @@ public class GameFrame extends JFrame{
         setGameFrameSize();
     }
     public void openGameWindow() {
+        getContentPane().removeAll();
         new GameWindow(this);
     }
     public void openGameOverWindow(){
+        getContentPane().removeAll();
         new GameOverWindow(this);
     }
     public void openMenuWindow() {
+        getContentPane().removeAll();
         new MenuWindow(this);
     }
 }

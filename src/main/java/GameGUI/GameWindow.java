@@ -11,13 +11,16 @@ public class GameWindow extends Window {
     public GameWindow(GameFrame gameFrame){
         super(gameFrame);
         initializeGamePanel();
-            GameEngine engine = new GameEngine(gamePanel);
-            Thread gameThread = new Thread(engine);
-            gameFrame.setVisible(true);
-            gameThread.start();
+        startGameEngine();
 
     }
-        void initializeGamePanel(){
+    void startGameEngine(){
+        GameEngine engine = new GameEngine(gamePanel);
+        Thread gameThread = new Thread(engine);
+        gameFrame.setVisible(true);
+        gameThread.start();
+    }
+    void initializeGamePanel(){
         gamePanel =new GamePanel(gameFrame);
         gameFrame.getContentPane().add(gamePanel, BorderLayout.CENTER);
     }

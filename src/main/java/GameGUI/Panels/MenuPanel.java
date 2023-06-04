@@ -21,7 +21,6 @@ public class MenuPanel extends JPanel {
         exitGame = new JButton("Exit game");
         startGame.addActionListener(e -> {
             gameFrame.openGameWindow();
-            gameFrame.getContentPane().remove(this);
         });
         exitGame.addActionListener(e -> {
             System.exit(0);
