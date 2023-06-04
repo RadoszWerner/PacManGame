@@ -17,7 +17,7 @@ public class GameEngine implements Runnable {
     Board board;
     @Getter @Setter int points;
     @Getter @Setter int time;
-    boolean gameOver;
+
     ArrayList<Thread> gameThreads;
     ArrayList<Collision> collisions;
     void initializeCollisions(){
@@ -30,7 +30,9 @@ public class GameEngine implements Runnable {
     void initializeGameThreads(){
         gameThreads = new ArrayList<>();
         gameThreads.add( new Thread(board.getSlowPacMan())) ;
-    }
+        gameThreads.add( new Thread(board.getBlinky())) ;
+        gameThreads.add( new Thread(board.getInky())) ;
+        gameThreads.add( new Thread(board.getClyde())) ;}
     void runThreads(){
         for (Thread gameThread:gameThreads) {
             gameThread.start();
@@ -51,12 +53,19 @@ public class GameEngine implements Runnable {
         });
     }
     void play(){
-        while (!gameOver){
+        while (!gameOver()){
             for (Collision collision:collisions) {
                 collision.checkCollision();
             }
             board.updateBoard();
         }
+        finishGame();
+    }
+    boolean gameOver(){
+        return (board.getPoints().size()==0 || board.getSlowPacMan().getLives()==0);
+    }
+    void finishGame(){
+
     }
     public void startGame(){
         initializeCollisions();
@@ -67,7 +76,6 @@ public class GameEngine implements Runnable {
 
     }
     public GameEngine()  {
-        gameOver = false;
         board = new Board();
         startGame();
     }

@@ -32,6 +32,10 @@ public class GameMenu {
             gameThread.start();
             gameFrame.dispose();
         });
+        exitGame.addActionListener(e -> {
+            System.exit(0);
+        });
+
     }
     void initializeMenu(){
         menuPanel = new JPanel();
