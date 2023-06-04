@@ -7,7 +7,7 @@ public class GameFrame extends JFrame{
     public GameFrame(String title) {
         super(title);
         initializeGameFrame();
-        new GameMenu(this);
+        new MenuWindow(this);
     }
     void setGameFrameSize(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -27,5 +27,6 @@ public class GameFrame extends JFrame{
         setGameFrameProperties();
         setGameFrameSize();
     }
+
 
 }

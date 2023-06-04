@@ -5,6 +5,8 @@ import Collision.Collision;
 import Collision.PacManPointCollision;
 import Collision.PacManWallCollision;
 import Collision.PacManGhostCollision;
+import Panels.GamePanel;
+import Panels.ScorePanel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,10 +18,12 @@ import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
     Board board;
+    ScorePanel scorePanel;
     @Getter @Setter int points;
     @Getter @Setter double time;
-    JFrame gameFrame;
+    GamePanel gamePanel;
     long startTime;
+
 
     ArrayList<Thread> gameThreads;
     ArrayList<Collision> collisions;
@@ -41,20 +45,7 @@ public class GameEngine implements Runnable {
             gameThread.start();
         }
     }
-    public void listenToKeyboard(){
-        board.getGameFrame().addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                board.getSlowPacMan().setPlannedDirection(e.getKeyCode());
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-    }
+
     void play(){
         while (!gameOver()){
             for (Collision collision:collisions) {
@@ -63,32 +54,28 @@ public class GameEngine implements Runnable {
             long currentTime = System.currentTimeMillis();
             time =((double) currentTime - (double) startTime)/1000;
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
-            board.getGamePanel().getScorePanel().updateAmounts(board.getFloors().size(), decimalFormat.format(time), board.getSlowPacMan().getLives());
-            board.updateBoard();
+            scorePanel.updateAmounts(board.getFloors().size(), decimalFormat.format(time), board.getSlowPacMan().getLives());
+            gamePanel.updateGame();
         }
-        finishGame();
+        gamePanel.finishGame();
     }
     boolean gameOver(){
         return (board.getPoints().size()==0 || board.getSlowPacMan().getLives()==0);
     }
-    void finishGame(){
 
-
-        gameFrame.getContentPane().removeAll();
-        new GameOver(gameFrame);
-    }
     public void startGame(){
         initializeCollisions();
         initializeGameThreads();
         runThreads();
-        listenToKeyboard();
+
 
 
     }
-    public GameEngine(JFrame gameFrame)  {
+    public GameEngine(GamePanel gamePanel)  {
         time = 100;
-        this.gameFrame = gameFrame;
-        board = new Board(gameFrame);
+        this.gamePanel = gamePanel;
+        board = gamePanel.getBoardPanel();
+        scorePanel = gamePanel.getScorePanel();
         startGame();
     }
     @Override

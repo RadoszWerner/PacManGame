@@ -1,21 +1,24 @@
 package Game;
 
-import Board.Board;
+import Game.GameEngine;
+import Game.GameWindow;
+import Panels.GamePanel;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GameMenu extends GameWindow{
-   @Getter @Setter GameEngine gameEngine;
+public class MenuWindow extends GameWindow {
+   @Getter @Setter
+   GameEngine gameEngine;
    JPanel menuPanel;
    JButton startGame;
    JButton scoreBoard;
    JButton exitGame;
+    GamePanel gamePanel;
 
-
-    public GameMenu(JFrame gameFrame)  {
+    public MenuWindow(JFrame gameFrame)  {
         super(gameFrame);
         initializeMenu();
     }
@@ -24,15 +27,22 @@ public class GameMenu extends GameWindow{
         scoreBoard = new JButton("Best Scores");
         exitGame = new JButton("Exit game");
         startGame.addActionListener(e -> {
-            GameEngine engine = new GameEngine(gameFrame);
+            initializeGamePanel();
+            GameEngine engine = new GameEngine(gamePanel);
             Thread gameThread = new Thread(engine);
+
             gameFrame.getContentPane().remove(menuPanel);
+            gameFrame.setVisible(true);
             gameThread.start();
         });
         exitGame.addActionListener(e -> {
             System.exit(0);
         });
 
+    }
+    void initializeGamePanel(){
+        gamePanel =new GamePanel(gameFrame);
+        gameFrame.getContentPane().add(gamePanel, BorderLayout.CENTER);
     }
     void initializeMenu(){
         menuPanel = new JPanel();

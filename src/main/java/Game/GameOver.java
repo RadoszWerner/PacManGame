@@ -1,7 +1,5 @@
 package Game;
 
-import lombok.NoArgsConstructor;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -37,7 +35,7 @@ public class GameOver extends GameWindow {
         mainMenu.addActionListener(e -> {
             gameFrame.getContentPane().removeAll();
             gameFrame.repaint();
-            new GameMenu(gameFrame);
+            new MenuWindow(gameFrame);
 
 
         });

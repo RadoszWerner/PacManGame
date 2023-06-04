@@ -1,22 +1,16 @@
 package Board;
 
-import Game.GameWindow;
-import Panels.BoardPanel;
+
 import Panels.GamePanel;
 import Utils.CartesianHelper;
 import Utils.DirectionChecker;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Board extends GameWindow {
+public class Board extends JPanel {
     final  int width = 1600;
     final  int height = 900;
     final  int squareAmountX = 32;
@@ -35,12 +29,6 @@ public class Board extends GameWindow {
     @Getter @Setter ArrayList<Wall> walls;
     @Getter @Setter ArrayList<Floor> floors;
     @Getter @Setter ArrayList<Ghost> ghosts;
-
-
-    void initializeGamePanel(){
-        gamePanel=new GamePanel();
-        gameFrame.getContentPane().add(gamePanel, BorderLayout.CENTER);
-    }
 
     void initializePanels(){
         panels = new ArrayList<>();
@@ -266,7 +254,7 @@ public class Board extends GameWindow {
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.gridx = xIndex;
                 constraints.gridy = yIndex;
-                gamePanel.getBoardPanel().add(panel, constraints);
+                add(panel, constraints);
                 panels.add(panel);
             }
         }
@@ -322,14 +310,10 @@ public class Board extends GameWindow {
             }
         }
         updateBoardItems();
-        gameFrame.setVisible(true);
 
     }
-    public Board(JFrame gameFrame)  {
-        super(gameFrame);
-        initializeGamePanel();
+    public Board()  {
+        setLayout(new GridBagLayout());
         generateBoard();
-        gameFrame.setVisible(true);
-        gameFrame.requestFocus();
     }
 }
