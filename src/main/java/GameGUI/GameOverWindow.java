@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class GameOverWindow extends Window {
     JPanel centralPanel;
-    public GameOverWindow(GameFrame gameFrame){
-        super(gameFrame);
+    public GameOverWindow(){
+        super();
         initializeGameOver();
     }
     void initializeGameOver(){
@@ -35,7 +35,7 @@ public class GameOverWindow extends Window {
         mainMenu.addActionListener(e -> {
             gameFrame.getContentPane().removeAll();
             gameFrame.repaint();
-            new MenuWindow(gameFrame);
+            new MenuWindow();
 
 
         });

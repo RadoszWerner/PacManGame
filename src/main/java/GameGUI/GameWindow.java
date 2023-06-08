@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class GameWindow extends Window {
     GamePanel gamePanel;
-    public GameWindow(GameFrame gameFrame){
-        super(gameFrame);
+    public GameWindow(){
+        super();
         initializeGamePanel();
         startGameEngine();
 

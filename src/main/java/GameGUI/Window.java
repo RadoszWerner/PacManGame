@@ -7,4 +7,7 @@ import lombok.Getter;
 public class Window {
     @Getter
     public GameFrame gameFrame;
+    public Window(){
+        gameFrame = GameFrame.getInstance();
+    }
 }

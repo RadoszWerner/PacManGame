@@ -10,8 +10,8 @@ public class MenuWindow extends Window {
    GameEngine gameEngine;
 
 
-    public MenuWindow(GameFrame gameFrame)  {
-        super(gameFrame);
+    public MenuWindow()  {
+        super();
         MenuPanel menu = new MenuPanel(gameFrame);
         gameFrame.getContentPane().add(menu);
         gameFrame.setVisible(true);

@@ -4,10 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends JFrame{
-    public GameFrame(String title) {
-        super(title);
+    private static GameFrame instance;
+    private final static String GAME_TITLE = "PacMan";
+    private GameFrame() {
+        super(GAME_TITLE);
         initializeGameFrame();
-        openMenuWindow();
+    }
+    public static GameFrame getInstance() {
+        if (instance == null) {
+            instance = new GameFrame();
+        }
+        return instance;
     }
     void setGameFrameSize(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -29,14 +36,14 @@ public class GameFrame extends JFrame{
     }
     public void openGameWindow() {
         getContentPane().removeAll();
-        new GameWindow(this);
+        new GameWindow();
     }
     public void openGameOverWindow(){
         getContentPane().removeAll();
-        new GameOverWindow(this);
+        new GameOverWindow();
     }
     public void openMenuWindow() {
         getContentPane().removeAll();
-        new MenuWindow(this);
+        new MenuWindow();
     }
 }
