@@ -11,8 +11,8 @@ public class MenuPanel extends JPanel {
 
     GameFrame gameFrame;
 
-    public MenuPanel(GameFrame gameFrame){
-        this.gameFrame = gameFrame;
+    public MenuPanel(){
+        gameFrame = GameFrame.getInstance();
         initializeMenu();
     }
     private void initializeButtons() {

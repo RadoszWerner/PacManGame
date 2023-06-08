@@ -21,7 +21,7 @@ public class GameWindow extends Window {
         gameThread.start();
     }
     void initializeGamePanel(){
-        gamePanel =new GamePanel(gameFrame);
+        gamePanel =new GamePanel();
         gameFrame.getContentPane().add(gamePanel, BorderLayout.CENTER);
     }
 }

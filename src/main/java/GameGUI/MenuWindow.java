@@ -12,7 +12,7 @@ public class MenuWindow extends Window {
 
     public MenuWindow()  {
         super();
-        MenuPanel menu = new MenuPanel(gameFrame);
+        MenuPanel menu = new MenuPanel();
         gameFrame.getContentPane().add(menu);
         gameFrame.setVisible(true);
     }

@@ -15,8 +15,8 @@ public class GamePanel extends JPanel {
     Board boardPanel;
     @Getter ScorePanel scorePanel;
     GameFrame gameFrame;
-    public GamePanel(GameFrame gameFrame){
-        this.gameFrame = gameFrame;
+    public GamePanel(){
+        gameFrame = GameFrame.getInstance();
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 50, 10, 50));
         boardPanel = new Board();
