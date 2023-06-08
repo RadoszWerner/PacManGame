@@ -1,13 +1,15 @@
 package GameGUI;
 
+import Utils.GameConstants;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends JFrame{
     private static GameFrame instance;
-    private final static String GAME_TITLE = "PacMan";
+
     private GameFrame() {
-        super(GAME_TITLE);
+        super(GameConstants.GAME_TITLE);
         initializeGameFrame();
     }
     public static GameFrame getInstance() {

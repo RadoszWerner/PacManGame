@@ -4,17 +4,16 @@ package GameGUI.Panels.Board;
 import GameGUI.Panels.GamePanel;
 import Utils.CartesianHelper;
 import Utils.DirectionChecker;
+import Utils.GameConstants;
 import lombok.Getter;
 import lombok.Setter;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import Utils.GameConstants;
 
 public class Board extends JPanel {
-    final  int width = 1600;
-    final  int height = 900;
-    final  int squareAmountX = 32;
-    final  int squareAmountY = 18;
+   
     @Getter @Setter
     GamePanel gamePanel;
 
@@ -35,10 +34,10 @@ public class Board extends JPanel {
         panels = new ArrayList<>();
     }
     void initializeBoardItems(){
-        slowPacMan = new SlowPacMan(3,14);
-        blinky = new Blinky(5,4);
-        clyde = new Clyde(28,9);
-        inky = new Inky(15,16);
+        slowPacMan = new SlowPacMan();
+        blinky = new Blinky();
+        clyde = new Clyde();
+        inky = new Inky();
         dynamicItems = new ArrayList<>();
         boardItems = new ArrayList<>();
         points = new ArrayList<>();
@@ -188,9 +187,9 @@ public class Board extends JPanel {
          generateSingleWalls();
     }
     void generateBorders(){
-        for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
-            for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
-                if(yIndex==0 || xIndex==0 || yIndex ==squareAmountY-1 || xIndex==squareAmountX-1){
+        for (int yIndex = 0; yIndex <GameConstants.SQUARE_AMOUNT_Y ; yIndex++) {
+            for (int xIndex = 0; xIndex < GameConstants.SQUARE_AMOUNT_X; xIndex++) {
+                if(yIndex==0 || xIndex==0 || yIndex ==GameConstants.SQUARE_AMOUNT_Y-1 || xIndex==GameConstants.SQUARE_AMOUNT_X-1){
                     Wall wall = new Wall(xIndex,yIndex);
                     walls.add(wall);
                 }
@@ -209,8 +208,8 @@ public class Board extends JPanel {
     }
     void generateBackground(){
         points.clear();
-        for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
-            for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
+        for (int yIndex = 0; yIndex <GameConstants.SQUARE_AMOUNT_Y ; yIndex++) {
+            for (int xIndex = 0; xIndex < GameConstants.SQUARE_AMOUNT_X; xIndex++) {
                 if(isThereBackground(xIndex, yIndex)){
                     Point point = new Point(xIndex,yIndex);
                     points.add(point);
@@ -227,8 +226,8 @@ public class Board extends JPanel {
         boardItems.addAll(points);
         boardItems.addAll(walls);
         boardItems.addAll(floors);
-        boardItems.add(slowPacMan);
         boardItems.addAll(ghosts);
+        boardItems.add(slowPacMan);
 
     }
     void generateDynamicItems(){
@@ -246,10 +245,10 @@ public class Board extends JPanel {
 
     }
     void generatePanels(){
-        int squareWidth = width / squareAmountX;
-        int squareHeight = height / squareAmountY;
-        for (int yIndex = 0; yIndex <squareAmountY ; yIndex++) {
-            for (int xIndex = 0; xIndex < squareAmountX; xIndex++) {
+        int squareWidth = GameConstants.WIDTH / GameConstants.SQUARE_AMOUNT_X;
+        int squareHeight = GameConstants.HEIGHT / GameConstants.SQUARE_AMOUNT_Y;
+        for (int yIndex = 0; yIndex <GameConstants.SQUARE_AMOUNT_Y ; yIndex++) {
+            for (int xIndex = 0; xIndex < GameConstants.SQUARE_AMOUNT_X; xIndex++) {
                 JPanel panel = new JPanel();
                 panel.setPreferredSize(new Dimension(squareWidth, squareHeight));
                 GridBagConstraints constraints = new GridBagConstraints();
@@ -262,16 +261,13 @@ public class Board extends JPanel {
     }
 
     void drawItem(int x, int y, Color color){
-        int panelIndex = CartesianHelper.getIndexByCoordinates(x,y,squareAmountX);
+        int panelIndex = CartesianHelper.getIndexByCoordinates(x,y,GameConstants.SQUARE_AMOUNT_X);
         panels.get(panelIndex).setBackground(color);
-
-
     }
     void generateBoard()  {
         initializeBoardElements();
         generateBoardItems();
         generatePanels();
-
         for (BoardItem boardItem:boardItems) {
                 drawItem(boardItem.getX(),boardItem.getY(),boardItem.color);
         }
@@ -280,8 +276,6 @@ public class Board extends JPanel {
     void updateBoardItems(){
     boardItems.clear();
         addToBoardItems();
-
-
     }
     boolean checkIfNearToDynamicItem(BoardItem itemToCheck, int x,int y){
         int xToCheck = itemToCheck.getX();
