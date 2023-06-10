@@ -17,18 +17,28 @@ public class GamePanel extends JPanel {
     GameFrame gameFrame;
     public GamePanel(){
         gameFrame = GameFrame.getInstance();
-        setLayout(new BorderLayout());
-        setBorder(new EmptyBorder(10, 50, 10, 50));
-        boardPanel = new Board();
-        add(boardPanel, BorderLayout.WEST);
-        scorePanel = new ScorePanel();
-        add(scorePanel, BorderLayout.EAST);
+        initializeGamePanel();
+    }
+    void initializeGamePanel(){
+        setProperties();
+        initializePanels();
+        addPanels();
         listenToKeyboard();
     }
-    public void finishGame(){
-        gameFrame.openGameOverWindow();
+    void setProperties(){
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10, 50, 10, 50));
     }
-    public void listenToKeyboard(){
+    void initializePanels(){
+        boardPanel = new Board();
+        scorePanel = new ScorePanel();
+    }
+    void addPanels(){
+        add(boardPanel, BorderLayout.WEST);
+        add(scorePanel, BorderLayout.EAST);
+    }
+
+    void listenToKeyboard(){
         gameFrame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -46,4 +56,8 @@ public class GamePanel extends JPanel {
         boardPanel.updateBoard();
         gameFrame.setVisible(true);
     }
+    public void finishGame(){
+        gameFrame.openGameOverWindow();
+    }
+
 }

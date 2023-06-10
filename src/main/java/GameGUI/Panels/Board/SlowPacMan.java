@@ -2,7 +2,6 @@ package GameGUI.Panels.Board;
 
 import Utils.GameConstants;
 
-import java.awt.*;
 public class SlowPacMan extends PacMan {
     public SlowPacMan(int x, int y) {
         super(x, y, GameConstants.PACMAN_COLOR, GameConstants.SLOW_PACMAN_SPEED);

@@ -2,7 +2,6 @@ package GameGUI.Panels.Board;
 
 import Utils.GameConstants;
 
-import java.awt.*;
 
 public class Floor extends BoardItem{
 

@@ -10,14 +10,11 @@ import lombok.Setter;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import Utils.GameConstants;
 
 public class Board extends JPanel {
    
     @Getter @Setter
     GamePanel gamePanel;
-
-
     @Getter @Setter SlowPacMan slowPacMan;
     @Getter @Setter Blinky blinky;
     @Getter @Setter Clyde clyde;
@@ -29,7 +26,23 @@ public class Board extends JPanel {
     @Getter @Setter ArrayList<Wall> walls;
     @Getter @Setter ArrayList<Floor> floors;
     @Getter @Setter ArrayList<Ghost> ghosts;
+    public Board()  {
+        setLayout(new GridBagLayout());
+        generateBoard();
+    }
+    void generateBoard()  {
+        initializeBoardElements();
+        generateBoardItems();
+        generatePanels();
+        for (BoardItem boardItem:boardItems) {
+            drawItem(boardItem.getX(),boardItem.getY(),boardItem.color);
+        }
 
+    }
+    void initializeBoardElements(){
+        initializePanels();
+        initializeBoardItems();
+    }
     void initializePanels(){
         panels = new ArrayList<>();
     }
@@ -45,9 +58,19 @@ public class Board extends JPanel {
         floors = new ArrayList<>();
         ghosts = new ArrayList<>();
     }
-    void initializeBoardElements(){
-        initializePanels();
-        initializeBoardItems();
+    void generateBoardItems()  {
+        generateWalls();
+        generateBorders();
+        generateBackground();
+        generateGhosts();
+        generateDynamicItems();
+        addToBoardItems();
+
+    }
+    void generateWalls()  {
+        generateVerticalWalls();
+        generateHorizontalWalls();
+        generateSingleWalls();
     }
     void generateVerticalWalls(){
         for (int i = 2; i < 7; i++) {
@@ -181,17 +204,24 @@ public class Board extends JPanel {
         walls.add(new Wall(18, 11));
         walls.add(new Wall(14, 4));
     }
-    void generateWalls()  {
-         generateVerticalWalls();
-         generateHorizontalWalls();
-         generateSingleWalls();
-    }
+
     void generateBorders(){
         for (int yIndex = 0; yIndex <GameConstants.SQUARE_AMOUNT_Y ; yIndex++) {
             for (int xIndex = 0; xIndex < GameConstants.SQUARE_AMOUNT_X; xIndex++) {
                 if(yIndex==0 || xIndex==0 || yIndex ==GameConstants.SQUARE_AMOUNT_Y-1 || xIndex==GameConstants.SQUARE_AMOUNT_X-1){
                     Wall wall = new Wall(xIndex,yIndex);
                     walls.add(wall);
+                }
+            }
+        }
+    }
+    void generateBackground(){
+        points.clear();
+        for (int yIndex = 0; yIndex <GameConstants.SQUARE_AMOUNT_Y ; yIndex++) {
+            for (int xIndex = 0; xIndex < GameConstants.SQUARE_AMOUNT_X; xIndex++) {
+                if(isThereBackground(xIndex, yIndex)){
+                    Point point = new Point(xIndex,yIndex);
+                    points.add(point);
                 }
             }
         }
@@ -206,21 +236,15 @@ public class Board extends JPanel {
         }
         return isBackground;
     }
-    void generateBackground(){
-        points.clear();
-        for (int yIndex = 0; yIndex <GameConstants.SQUARE_AMOUNT_Y ; yIndex++) {
-            for (int xIndex = 0; xIndex < GameConstants.SQUARE_AMOUNT_X; xIndex++) {
-                if(isThereBackground(xIndex, yIndex)){
-                    Point point = new Point(xIndex,yIndex);
-                    points.add(point);
-                }
-            }
-        }
-    }
+
     void generateGhosts(){
         ghosts.add(blinky);
         ghosts.add(inky);
         ghosts.add(clyde);
+    }
+    void generateDynamicItems(){
+        dynamicItems.add(slowPacMan);
+        dynamicItems.addAll(ghosts);
     }
     void addToBoardItems(){
         boardItems.addAll(points);
@@ -228,21 +252,6 @@ public class Board extends JPanel {
         boardItems.addAll(floors);
         boardItems.addAll(ghosts);
         boardItems.add(slowPacMan);
-
-    }
-    void generateDynamicItems(){
-        dynamicItems.add(slowPacMan);
-        dynamicItems.addAll(ghosts);
-    }
-    void generateBoardItems()  {
-
-        generateWalls();
-        generateBorders();
-        generateBackground();
-        generateGhosts();
-        generateDynamicItems();
-        addToBoardItems();
-
     }
     void generatePanels(){
         int squareWidth = GameConstants.WIDTH / GameConstants.SQUARE_AMOUNT_X;
@@ -259,23 +268,34 @@ public class Board extends JPanel {
             }
         }
     }
-
     void drawItem(int x, int y, Color color){
         int panelIndex = CartesianHelper.getIndexByCoordinates(x,y,GameConstants.SQUARE_AMOUNT_X);
         panels.get(panelIndex).setBackground(color);
     }
-    void generateBoard()  {
-        initializeBoardElements();
-        generateBoardItems();
-        generatePanels();
-        for (BoardItem boardItem:boardItems) {
-                drawItem(boardItem.getX(),boardItem.getY(),boardItem.color);
-        }
-
-    }
     void updateBoardItems(){
     boardItems.clear();
         addToBoardItems();
+    }
+    public void updateBoard(){
+        for (BoardItem boardItem:boardItems) {
+            int x = boardItem.getX();
+            int y = boardItem.getY();
+            if(isNearDynamicItem(x, y)){
+                drawItem(x,y,boardItem.color);
+            }
+        }
+        updateBoardItems();
+
+    }
+    boolean isNearDynamicItem(int x, int y){
+        boolean isNear = false;
+        for (DynamicItem dynamicItem:dynamicItems) {
+            if(checkIfNearToDynamicItem(dynamicItem, x, y)){
+                isNear = true;
+                break;
+            }
+        }
+        return isNear;
     }
     boolean checkIfNearToDynamicItem(BoardItem itemToCheck, int x,int y){
         int xToCheck = itemToCheck.getX();
@@ -285,30 +305,5 @@ public class Board extends JPanel {
                 || DirectionChecker.checkDown(xToCheck, yToCheck, x,y)
                 || DirectionChecker.checkRight(xToCheck, yToCheck, x,y)
                 || DirectionChecker.checkLeft(xToCheck, yToCheck, x,y));
-    }
-    boolean isNearDynamicItem(int x, int y){
-         boolean isNear = false;
-         for (DynamicItem dynamicItem:dynamicItems) {
-            if(checkIfNearToDynamicItem(dynamicItem, x, y)){
-                isNear = true;
-                break;
-            }
-         }
-        return isNear;
-    }
-    public void updateBoard(){
-        for (BoardItem boardItem:boardItems) {
-            int x = boardItem.getX();
-            int y = boardItem.getY();
-            if(isNearDynamicItem(x, y)){
-               drawItem(x,y,boardItem.color);
-            }
-        }
-        updateBoardItems();
-
-    }
-    public Board()  {
-        setLayout(new GridBagLayout());
-        generateBoard();
     }
 }

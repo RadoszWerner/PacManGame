@@ -16,54 +16,82 @@ public class ScorePanel extends JPanel {
     ArrayList<JLabel> labels;
     ArrayList<JPanel> panels;
     public ScorePanel(){
+       generatePanel();
+    }
+    void generatePanel(){
+        initializePanels();
+        initializeLabels();
+        initializeLists();
+        addToLists();
+        setProperties();
+        generatePanels();
+    }
+    void initializePanels(){
         time = new JPanel();
         score = new JPanel();
         lives = new JPanel();
+    }
+    void initializeLabels(){
         livesAmount = new JLabel();
         timeAmount = new JLabel();
         scoreAmount = new JLabel();
         livesDescription = new JLabel("Lives: ");
         scoreDescription = new JLabel("Score: ");
-        panels = new ArrayList<>();
-        addToPanelsList();
-        labels = new ArrayList<>();
-        addToLabelsList();
-        setLabelsProperties();
-        setPanelsProperties();
-        setLayout(new BorderLayout());
-
-        time.add(timeAmount);
-        lives.add(livesDescription);
-        lives.add(livesAmount);
-        score.add(scoreDescription);
-        score.add(scoreAmount);
-        add(time, BorderLayout.NORTH );
-        add(lives, BorderLayout.SOUTH );
-        add(score, BorderLayout.CENTER );
-
     }
-    public void addToLabelsList(){
+    void initializeLists(){
+        panels = new ArrayList<>();
+        labels = new ArrayList<>();
+    }
+    void addToLists(){
+        addToPanelsList();
+        addToLabelsList();
+    }
+    void addToLabelsList(){
         labels.add(timeAmount);
         labels.add(scoreAmount);
         labels.add(scoreDescription);
         labels.add(livesAmount);
         labels.add(livesDescription);
     }
-    public void addToPanelsList(){
+    void addToPanelsList(){
         panels.add(time);
         panels.add(score);
         panels.add(lives);
     }
-    public void setPanelsProperties(){
+    void setProperties(){
+        setLabelsProperties();
+        setPanelsProperties();
+        setLayout(new BorderLayout());
+    }
+    void setPanelsProperties(){
         for (JPanel panel: panels) {
             panel.setPreferredSize(new Dimension(200,50));
         }
     }
-    public void setLabelsProperties(){
+    void setLabelsProperties(){
         for (JLabel label: labels) {
             label.setFont( new Font("Arial", Font.BOLD, 35));
         }
         timeAmount.setPreferredSize(new Dimension(100,50));
+    }
+    void generatePanels(){
+        generateTimePanel();
+        generateScorePanel();
+        generateLivesPanel();
+    }
+    void generateTimePanel(){
+        time.add(timeAmount);
+        add(time, BorderLayout.NORTH );
+    }
+    void generateScorePanel(){
+        lives.add(livesDescription);
+        lives.add(livesAmount);
+        add(lives, BorderLayout.SOUTH );
+    }
+    void generateLivesPanel(){
+        score.add(scoreDescription);
+        score.add(scoreAmount);
+        add(score, BorderLayout.CENTER );
     }
     public void updateAmounts(int scoreFromGame, String timeFromGame,int livesFromGame){
         livesAmount.setText(String.valueOf(livesFromGame));

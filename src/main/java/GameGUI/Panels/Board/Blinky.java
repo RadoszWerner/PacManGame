@@ -2,7 +2,6 @@ package GameGUI.Panels.Board;
 
 import Utils.GameConstants;
 
-import java.awt.*;
 
 public class Blinky extends Ghost{
     public Blinky(int x, int y) {
