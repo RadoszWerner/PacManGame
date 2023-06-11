@@ -2,6 +2,7 @@ package Engine.AI;
 
 import Engine.Collision.DynamicItemWallCollision;
 import GameGUI.Panels.Board.Blinky;
+import GameGUI.Panels.Board.Ghost;
 import GameGUI.Panels.Board.PacMan;
 import lombok.AllArgsConstructor;
 
@@ -11,7 +12,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class BlinkyAI implements AI{
     PacMan pacman;
-    Blinky blinky;
+    Ghost blinky;
     DynamicItemWallCollision collision;
     @Override
     public void setDirection() {

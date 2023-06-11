@@ -22,6 +22,7 @@ public class DynamicItemWallCollision implements Collision {
     @Getter @Setter boolean rightWall;
     @Getter @Setter boolean upWall;
     @Getter @Setter boolean downWall;
+    @Getter @Setter boolean isWall;
     public DynamicItemWallCollision( DynamicItem dynamicItem, ArrayList<Wall> walls){
         this.dynamicItem = dynamicItem;
         this.walls = walls;
@@ -47,7 +48,7 @@ public class DynamicItemWallCollision implements Collision {
         dynamicItem.setMoving(true);
     }
     public void checkCollision(){
-        boolean isWall = false;
+       isWall = false;
         leftWall = false;rightWall = false;downWall = false;upWall = false;
         for (Wall wall:walls) {
             leftCollision = checkLeftCollision(wall);
