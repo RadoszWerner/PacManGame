@@ -2,6 +2,7 @@ package Engine;
 
 import Engine.AI.BlinkyAI;
 import Engine.AI.ClydeAI;
+import Engine.AI.InkyAI;
 import Engine.Collision.Collision;
 import Engine.Collision.PacManGhostCollision;
 import Engine.Collision.PacManPointCollision;
@@ -26,7 +27,7 @@ public class GameEngine implements Runnable {
     long startTime;
     BlinkyAI blinkyAI;
     ClydeAI clydeAI;
-
+    InkyAI inkyAI;
 
     ArrayList<Thread> gameThreads;
     ArrayList<Collision> collisions;
@@ -37,6 +38,7 @@ public class GameEngine implements Runnable {
         collisions.add(new PacManGhostCollision(board.getSlowPacMan(), board.getGhosts()));
         collisions.add(new DynamicItemWallCollision(board.getBlinky(), board.getWalls()));
         collisions.add(new DynamicItemWallCollision(board.getClyde(), board.getWalls()));
+        collisions.add(new DynamicItemWallCollision(board.getInky(), board.getWalls()));
 
     }
     void initializeGameThreads(){
@@ -58,6 +60,7 @@ public class GameEngine implements Runnable {
             }
             blinkyAI.setDirection();
             clydeAI.setDirection();
+            inkyAI.setDirection();
             long currentTime = System.currentTimeMillis();
             time =((double) currentTime - (double) startTime)/1000;
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -76,6 +79,7 @@ public class GameEngine implements Runnable {
         blinkyAI = new BlinkyAI(board.getSlowPacMan(), board.getBlinky(), (DynamicItemWallCollision) collisions.get(3));
         board.getClyde().setPlannedDirection(KeyEvent.VK_DOWN);
         clydeAI = new ClydeAI(board.getClyde());
+        inkyAI = new InkyAI(new BlinkyAI(board.getSlowPacMan(), board.getInky(), (DynamicItemWallCollision) collisions.get(5)),new ClydeAI(board.getInky()),1,1);
         initializeGameThreads();
         runThreads();
     }
