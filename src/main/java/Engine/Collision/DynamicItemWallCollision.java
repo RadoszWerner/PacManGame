@@ -18,6 +18,10 @@ public class DynamicItemWallCollision implements Collision {
     @Getter @Setter boolean leftCollision;
     @Getter @Setter boolean upCollision;
     @Getter @Setter boolean downCollision;
+    @Getter @Setter boolean leftWall;
+    @Getter @Setter boolean rightWall;
+    @Getter @Setter boolean upWall;
+    @Getter @Setter boolean downWall;
     public DynamicItemWallCollision( DynamicItem dynamicItem, ArrayList<Wall> walls){
         this.dynamicItem = dynamicItem;
         this.walls = walls;
@@ -44,6 +48,7 @@ public class DynamicItemWallCollision implements Collision {
     }
     public void checkCollision(){
         boolean isWall = false;
+        leftWall = false;rightWall = false;downWall = false;upWall = false;
         for (Wall wall:walls) {
             leftCollision = checkLeftCollision(wall);
             rightCollision = checkRightCollision(wall);
@@ -59,12 +64,16 @@ public class DynamicItemWallCollision implements Collision {
                 stopMoving();
             }
             if(dynamicItem.getPlannedDirection() == KeyEvent.VK_LEFT && leftCollision){
+                leftWall = true;
                 isWall = true;
-            }else if(dynamicItem.getPlannedDirection() == KeyEvent.VK_RIGHT && checkRightCollision(wall)){
+            }else if(dynamicItem.getPlannedDirection() == KeyEvent.VK_RIGHT && rightCollision){
+                rightWall = true;
                 isWall = true;
-            }else if(dynamicItem.getPlannedDirection() == KeyEvent.VK_UP && checkUpCollision(wall)){
+            }else if(dynamicItem.getPlannedDirection() == KeyEvent.VK_UP && upCollision){
+                upWall = true;
                 isWall = true;
-            }else if(dynamicItem.getPlannedDirection() == KeyEvent.VK_DOWN && checkDownCollision(wall)){
+            }else if(dynamicItem.getPlannedDirection() == KeyEvent.VK_DOWN && downCollision){
+                downWall = true;
                 isWall = true;
             }
 

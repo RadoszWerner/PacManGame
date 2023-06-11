@@ -51,4 +51,11 @@ public abstract class DynamicItem extends BoardItem {
              isMoving = false;
          }
     };
+    public int getOppositeDirection(){
+        if(plannedDirection == KeyEvent.VK_RIGHT) return KeyEvent.VK_LEFT;
+        if(plannedDirection == KeyEvent.VK_LEFT) return KeyEvent.VK_RIGHT;
+        if(plannedDirection == KeyEvent.VK_DOWN) return KeyEvent.VK_UP;
+        if(plannedDirection == KeyEvent.VK_UP) return KeyEvent.VK_DOWN;
+        return plannedDirection;
+    };
 }

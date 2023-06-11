@@ -6,6 +6,7 @@ import GameGUI.Panels.Board.PacMan;
 import lombok.AllArgsConstructor;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 @AllArgsConstructor
 public class BlinkyAI implements AI{
@@ -19,16 +20,23 @@ public class BlinkyAI implements AI{
         int blinkyX = blinky.getX();
         int blinkyY = blinky.getY();
         boolean moreHorizontal = Math.abs(pacmanY - blinkyY) < Math.abs(pacmanX - blinkyX);
-        if(pacmanY > blinkyY && !moreHorizontal && blinky.isMoving()){
-            blinky.setPlannedDirection(KeyEvent.VK_DOWN);
-        } else if (pacmanY < blinkyY && !moreHorizontal && blinky.isMoving()){
-            blinky.setPlannedDirection(KeyEvent.VK_UP);
-        }else if (pacmanX < blinkyX && moreHorizontal && blinky.isMoving()){
-            blinky.setPlannedDirection(KeyEvent.VK_LEFT);
-        }else if (pacmanX > blinkyX && moreHorizontal && blinky.isMoving()){
-            blinky.setPlannedDirection(KeyEvent.VK_RIGHT);
-        } else{
-            blinky.setPlannedDirection(KeyEvent.VK_DOWN);
+        int vertical, horizontal;
+        if(pacmanX < blinkyX) horizontal = KeyEvent.VK_LEFT;
+        else horizontal = KeyEvent.VK_RIGHT;
+        if(pacmanY > blinkyY) vertical = KeyEvent.VK_DOWN;
+        else vertical = KeyEvent.VK_UP;
+        if(pacmanY > blinkyY && !moreHorizontal){
+            if(!collision.isUpWall())  blinky.setPlannedDirection(vertical);
+            else blinky.setPlannedDirection(horizontal);
+        } if (pacmanY < blinkyY && !moreHorizontal  ){
+            if(!collision.isDownWall())  blinky.setPlannedDirection(vertical);
+            else blinky.setPlannedDirection(horizontal);
+        }if (pacmanX < blinkyX && moreHorizontal){
+            if(!collision.isLeftWall())  blinky.setPlannedDirection(horizontal);
+            else blinky.setPlannedDirection(vertical);
+        }if (pacmanX > blinkyX && moreHorizontal  ){
+            if(!collision.isRightWall())  blinky.setPlannedDirection(horizontal);
+            else blinky.setPlannedDirection(vertical);
         }
 
     }
