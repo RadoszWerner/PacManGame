@@ -1,6 +1,5 @@
 package Engine.AI;
 
-import Engine.Collision.DynamicItemWallCollision;
 import GameGUI.Panels.Board.Ghost;
 import GameGUI.Panels.Board.PacMan;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import java.awt.event.KeyEvent;
 public class PinkyAI implements AI{
     PacMan pacman;
     Ghost pinky;
-    DynamicItemWallCollision collision;
     @Override
     public void setDirection() {
         int pacmanX = pacman.getX();
@@ -28,6 +26,5 @@ public class PinkyAI implements AI{
         }else if (pacmanX > pinkyX && moreHorizontal){
             pinky.setPlannedDirection(KeyEvent.VK_RIGHT);
         }
-
     }
 }
