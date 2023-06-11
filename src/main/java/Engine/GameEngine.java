@@ -1,10 +1,12 @@
 package Engine;
 
+import Engine.AI.BlinkyAI;
 import Engine.Collision.Collision;
 import Engine.Collision.PacManGhostCollision;
 import Engine.Collision.PacManPointCollision;
-import Engine.Collision.PacManWallCollision;
+import Engine.Collision.DynamicItemWallCollision;
 import GameGUI.Panels.Board.Board;
+import GameGUI.Panels.Board.PacMan;
 import GameGUI.Panels.GamePanel;
 import GameGUI.Panels.ScorePanel;
 import lombok.Getter;
@@ -20,15 +22,17 @@ public class GameEngine implements Runnable {
     @Getter @Setter double time;
     GamePanel gamePanel;
     long startTime;
+    BlinkyAI blinkyAI;
 
 
     ArrayList<Thread> gameThreads;
     ArrayList<Collision> collisions;
     void initializeCollisions(){
         collisions = new ArrayList<>();
-        collisions.add(new PacManWallCollision(board.getSlowPacMan(), board.getWalls()));
+        collisions.add(new DynamicItemWallCollision(board.getSlowPacMan(), board.getWalls()));
         collisions.add(new PacManPointCollision(board.getSlowPacMan(), board.getPoints(), board.getFloors()));
         collisions.add(new PacManGhostCollision(board.getSlowPacMan(), board.getGhosts()));
+        collisions.add(new DynamicItemWallCollision(board.getBlinky(), board.getWalls()));
 
     }
     void initializeGameThreads(){
@@ -48,6 +52,7 @@ public class GameEngine implements Runnable {
             for (Collision collision:collisions) {
                 collision.checkCollision();
             }
+            blinkyAI.setDirection();
             long currentTime = System.currentTimeMillis();
             time =((double) currentTime - (double) startTime)/1000;
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -61,7 +66,9 @@ public class GameEngine implements Runnable {
     }
 
     public void startGame(){
+
         initializeCollisions();
+        blinkyAI = new BlinkyAI(board.getSlowPacMan(), board.getBlinky(), (DynamicItemWallCollision) collisions.get(3));
         initializeGameThreads();
         runThreads();
     }

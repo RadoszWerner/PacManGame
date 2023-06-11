@@ -8,7 +8,6 @@ public class MenuButton extends JButton {
     public MenuButton(String content){
         super(content);
         setProperties();
-        
     }
     public void setProperties(){
         setPreferredSize(new Dimension(400, 100));

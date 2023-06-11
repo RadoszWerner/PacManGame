@@ -9,7 +9,7 @@ public class GameConstants {
     public final static int SQUARE_AMOUNT_Y = 18;
     public final static String GAME_TITLE = "PacMan";
     public final static int SLOW_PACMAN_SPEED = 7;
-    public final static int GHOST_SPEED = 7;
+    public final static int GHOST_SPEED = 5;
     public final static Color PACMAN_COLOR = Color.yellow;
     public final static Color BLINKY_COLOR = Color.red;
     public final static Color INKY_COLOR = Color.blue;
