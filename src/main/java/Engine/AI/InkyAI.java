@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.Random;
 @AllArgsConstructor
 public class InkyAI implements AI{
-    BlinkyAI blinkyAI;
+    PinkyAI pinkyAI;
     ClydeAI clydeAI;
     int counter;
     int chosenNumber;
@@ -16,7 +16,7 @@ public class InkyAI implements AI{
             int randomNumber = random.nextInt(2) + 1;
             chosenNumber = randomNumber;
         }
-        if(chosenNumber == 1) blinkyAI.setDirection();
+        if(chosenNumber == 1) pinkyAI.setDirection();
         if(chosenNumber == 2) clydeAI.setDirection();
         counter++;
     }

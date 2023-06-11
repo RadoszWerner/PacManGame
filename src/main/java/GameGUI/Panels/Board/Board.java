@@ -16,7 +16,8 @@ public class Board extends JPanel {
     @Getter @Setter
     GamePanel gamePanel;
     @Getter @Setter SlowPacMan slowPacMan;
-    @Getter @Setter Blinky blinky;
+    @Getter @Setter
+    Pinky pinky;
     @Getter @Setter Clyde clyde;
     @Getter @Setter Inky inky;
     @Getter @Setter ArrayList<DynamicItem> dynamicItems;
@@ -48,7 +49,7 @@ public class Board extends JPanel {
     }
     void initializeBoardItems(){
         slowPacMan = new SlowPacMan();
-        blinky = new Blinky();
+        pinky = new Pinky();
         clyde = new Clyde();
         inky = new Inky();
         dynamicItems = new ArrayList<>();
@@ -238,7 +239,7 @@ public class Board extends JPanel {
     }
 
     void generateGhosts(){
-        ghosts.add(blinky);
+        ghosts.add(pinky);
         ghosts.add(inky);
         ghosts.add(clyde);
     }
