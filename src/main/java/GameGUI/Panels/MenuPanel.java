@@ -43,6 +43,7 @@ public class MenuPanel extends JPanel {
     }
     void addButtonListeners(){
         startGame.addActionListener(e -> gameFrame.openGameWindow());
+        scoreBoard.addActionListener(e -> gameFrame.openBestScoresWindow());
         exitGame.addActionListener(e -> System.exit(0));
     }
     void addButtons(){

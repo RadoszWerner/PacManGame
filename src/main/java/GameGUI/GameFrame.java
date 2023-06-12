@@ -48,4 +48,9 @@ public class GameFrame extends JFrame{
         getContentPane().removeAll();
         new MenuWindow();
     }
+
+    public void openBestScoresWindow() {
+        getContentPane().removeAll();
+        new BestScoresWindow();
+    }
 }

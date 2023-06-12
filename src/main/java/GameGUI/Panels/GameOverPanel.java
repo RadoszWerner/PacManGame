@@ -89,7 +89,7 @@ public class GameOverPanel extends JPanel {
 //            System.out.println("Username: " + username);
             try{
                 FileWriter fileWriter = new FileWriter("scores.txt", true);
-                fileWriter.write(username+","+points+","+time);
+                fileWriter.write(username+","+points+","+time+"\n");
                 fileWriter.close();
                 System.out.println("Username saved to file.");
             }
