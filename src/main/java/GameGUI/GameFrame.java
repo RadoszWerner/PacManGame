@@ -40,9 +40,9 @@ public class GameFrame extends JFrame{
         getContentPane().removeAll();
         new GameWindow();
     }
-    public void openGameOverWindow(){
+    public void openGameOverWindow(int points, double time){
         getContentPane().removeAll();
-        new GameOverWindow();
+        new GameOverWindow(points, time);
     }
     public void openMenuWindow() {
         getContentPane().removeAll();

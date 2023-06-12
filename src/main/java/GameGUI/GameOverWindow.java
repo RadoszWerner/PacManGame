@@ -1,19 +1,19 @@
 package GameGUI;
-
-import GameGUI.Buttons.MenuButton;
 import GameGUI.Panels.GameOverPanel;
-
-import javax.swing.*;
-import java.awt.*;
+import lombok.Setter;
 
 public class GameOverWindow extends Window {
-    JPanel centralPanel;
-    public GameOverWindow(){
+    @Setter static private int points;
+    @Setter static private double time;
+
+    public GameOverWindow(int points, double time){
         super();
+        setPoints(points);
+        setTime(time);
         initializeGameOver();
     }
     void initializeGameOver(){
-        GameOverPanel panel = new GameOverPanel();
+        GameOverPanel panel = new GameOverPanel(points, time);
         gameFrame.getContentPane().add(panel);
         gameFrame.setVisible(true);
     }

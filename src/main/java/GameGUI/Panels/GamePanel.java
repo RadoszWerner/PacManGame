@@ -56,8 +56,8 @@ public class GamePanel extends JPanel {
         boardPanel.updateBoard();
         gameFrame.setVisible(true);
     }
-    public void finishGame(){
-        gameFrame.openGameOverWindow();
+    public void finishGame(int points, double time){
+        gameFrame.openGameOverWindow(points, time);
     }
 
 }

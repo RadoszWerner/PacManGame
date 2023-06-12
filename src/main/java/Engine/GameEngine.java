@@ -50,7 +50,7 @@ public class GameEngine implements Runnable {
         gameThreads.add( new Thread(board.getInky())) ;
         gameThreads.add( new Thread(board.getPinky())) ;
         gameThreads.add( new Thread(board.getClyde())) ;
-    };
+    }
     void runThreads(){
         for (Thread gameThread:gameThreads) {
             gameThread.start();
@@ -72,7 +72,7 @@ public class GameEngine implements Runnable {
             scorePanel.updateAmounts(board.getFloors().size(), decimalFormat.format(time), board.getSlowPacMan().getLives());
             gamePanel.updateGame();
         }
-        gamePanel.finishGame();
+        gamePanel.finishGame(board.getFloors().size(), time);
     }
     boolean gameOver(){
         return (board.getPoints().size()==0 || board.getSlowPacMan().getLives()==0);
