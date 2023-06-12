@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class GameOverPanel extends JPanel {
     GameFrame gameFrame;
@@ -81,10 +83,19 @@ public class GameOverPanel extends JPanel {
         add(usernameField, gbc);
     }
     private void initializeSaveButton() {
-        JButton commitButton = new JButton("Commit");
+        MenuButton commitButton = new MenuButton("Commit");
         commitButton.addActionListener(e -> {
             String username = usernameField.getText();
-            System.out.println("Username: " + username);
+//            System.out.println("Username: " + username);
+            try{
+                FileWriter fileWriter = new FileWriter("scores.txt", true);
+                fileWriter.write(username+","+points+","+time);
+                fileWriter.close();
+                System.out.println("Username saved to file.");
+            }
+            catch (IOException ex){
+                System.out.println("Error error format C:");
+            }
         });
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
