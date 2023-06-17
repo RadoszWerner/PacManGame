@@ -3,8 +3,8 @@ package Utils;
 import java.awt.*;
 
 public class GameConstants {
-    public final  static int WIDTH = 1280;
-    public final static int HEIGHT = 720;
+    public final  static int WIDTH = 1600;
+    public final static int HEIGHT = 900;
     public final static int SQUARE_AMOUNT_X = 32;
     public final static int SQUARE_AMOUNT_Y = 18;
     public final static String GAME_TITLE = "PacMan";
