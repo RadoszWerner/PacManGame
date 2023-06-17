@@ -1,8 +1,13 @@
-# PacManGame
+![Pac Man](/assets/pacman_logo.png "Pac Man")
+
 Classic pixel pacman.
 
 Enjoy the game!
 
+## v1.1
+* Added sample scores
+* Added Game Logo in Main Menu  
+  ![Main menu](/Screenshots/v1.1/MainMenu.png "Main Menu")
 ## v1.0
 * Most basic pacman game
 * Main Menu  

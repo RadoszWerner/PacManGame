@@ -1,5 +1,6 @@
 package GameGUI.Panels;
 
+import GameGUI.Buttons.LogoButton;
 import GameGUI.Buttons.MenuButton;
 import GameGUI.GameFrame;
 
@@ -24,6 +25,7 @@ public class MenuPanel extends JPanel {
         addButtonListeners();
         setProperties();
         addButtons();
+        addLogoPanel();
     }
     void setProperties(){
         setMaximumSize(new Dimension(400,500));
@@ -46,19 +48,29 @@ public class MenuPanel extends JPanel {
         scoreBoard.addActionListener(e -> gameFrame.openBestScoresWindow());
         exitGame.addActionListener(e -> System.exit(0));
     }
+    void addLogoPanel(){
+        LogoButton logoPanel = new LogoButton();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 30, 10);
+        gbc.gridx=0;
+        gbc.gridy=0;
+        gbc.fill = GridBagConstraints.CENTER;
+        add(logoPanel, gbc);
+
+    }
     void addButtons(){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.gridx=0;
-        gbc.gridy=0;
+        gbc.gridy=1;
         gbc.fill = GridBagConstraints.CENTER;
         add(startGame, gbc);
         gbc.gridx=0;
-        gbc.gridy=1;
+        gbc.gridy=2;
         gbc.fill = GridBagConstraints.CENTER;
         add(scoreBoard,gbc);
         gbc.gridx=0;
-        gbc.gridy=2;
+        gbc.gridy=3;
         gbc.fill = GridBagConstraints.CENTER;
         add(exitGame,gbc);
     }
