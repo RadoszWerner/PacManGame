@@ -3,7 +3,6 @@ package GameGUI.Panels.Board;
 import Utils.GameConstants;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class Ghost extends DynamicItem implements Runnable{
     public Ghost(int x, int y, Color color) {

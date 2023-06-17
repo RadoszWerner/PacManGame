@@ -1,5 +1,9 @@
 package GameGUI.Panels;
 
+import GameGUI.Buttons.MenuButton;
+import GameGUI.GameFrame;
+import GameGUI.MenuWindow;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -9,25 +13,57 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class BestScoresPanel extends JPanel {
-    private JTable scoresTable;
-    private DefaultTableModel tableModel;
+     JTable scoresTable;
+     MenuButton mainMenuButton;
+
+     DefaultTableModel tableModel;
+    ArrayList<Object[]> scoreList;
+    GameFrame gameFrame;
 
     public BestScoresPanel() {
-        setLayout(new BorderLayout());
-
-        // Create table model with 3 columns
+        gameFrame = GameFrame.getInstance();
+        setLayout(new GridBagLayout());
+        scoreList = new ArrayList<>();
+        initializeBestScoresPanel();
+    }
+    void initializeBestScoresPanel(){
+        initializeTableModel();
+        initializeScoresTable();
+        initializeMainMenuButton();
+        initializeScoresTable();
+        initializeTableHeader();
+        setLayout();
+        initializeMsg();
+        loadScoresFromFile();
+    }
+    void initializeTableModel(){
         tableModel = new DefaultTableModel();
+        tableModel.addColumn("Place");
         tableModel.addColumn("Username");
         tableModel.addColumn("Points");
         tableModel.addColumn("Time");
-
-        // Create scores table using the table model
+    }
+    void setLayout(){
+        JScrollPane scrollPane = new JScrollPane(scoresTable);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx=0;
+        gbc.gridy=1;
+        gbc.fill = GridBagConstraints.CENTER;
+        add(scrollPane, gbc);
+        gbc.gridx=0;
+        gbc.gridy=2;
+        add(mainMenuButton,gbc);
+    }
+    void initializeScoresTable(){
         scoresTable = new JTable(tableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Blokuj edycję wszystkich komórek w tabeli
+                return false;
             }
 
             @Override
@@ -35,20 +71,31 @@ public class BestScoresPanel extends JPanel {
                 return new CustomTableCellRenderer();
             }
         };
-
-        scoresTable.setFont(scoresTable.getFont().deriveFont(20f)); // Ustaw rozmiar czcionki dla tabeli
-        scoresTable.setRowHeight(26); // Ustaw większą wysokość komórek
-
-        // Set header renderer to increase header font size
+        scoresTable.setFont(scoresTable.getFont().deriveFont(20f));
+        scoresTable.setRowHeight(26);
+    }
+    void initializeTableHeader(){
         JTableHeader tableHeader = scoresTable.getTableHeader();
-        tableHeader.setFont(tableHeader.getFont().deriveFont(24f)); // Ustaw rozmiar czcionki dla nagłówków kolumn
+        tableHeader.setFont(tableHeader.getFont().deriveFont(24f));
         tableHeader.setDefaultRenderer(new HeaderCellRenderer());
-
-        JScrollPane scrollPane = new JScrollPane(scoresTable);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Load scores from file
-        loadScoresFromFile();
+    }
+    void initializeMainMenuButton(){
+        mainMenuButton = new MenuButton("Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            gameFrame.getContentPane().removeAll();
+            gameFrame.repaint();
+            new MenuWindow();
+        });
+    }
+    void initializeMsg(){
+        JLabel gameOverLabel = new JLabel("Best Scores");
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 70));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx=0;
+        gbc.gridy=0;
+        gbc.fill = GridBagConstraints.CENTER;
+        add(gameOverLabel, gbc);
     }
 
     private void loadScoresFromFile() {
@@ -60,9 +107,23 @@ public class BestScoresPanel extends JPanel {
                     String username = scoreData[0];
                     String points = scoreData[1];
                     String time = scoreData[2];
-                    tableModel.addRow(new Object[]{username, points, time});
+                    int number = 0;
+                    scoreList.add(new Object[]{number,username, points, time});
                 }
             }
+            scoreList.sort(Comparator
+                    .comparing((Object[] o) -> Double.parseDouble((String) o[2]))
+                    .reversed()
+                    .thenComparing((Object[] o) -> Double.parseDouble((String) o[3]))
+            );
+            int ordinalNumber = 1;
+            for (Object[] item : scoreList) {
+                item[0] = ordinalNumber;
+
+                tableModel.addRow(item);
+                ordinalNumber++;
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,7 +137,7 @@ public class BestScoresPanel extends JPanel {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component rendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            rendererComponent.setFont(rendererComponent.getFont().deriveFont(20f)); // Ustaw rozmiar czcionki dla komórek
+            rendererComponent.setFont(rendererComponent.getFont().deriveFont(20f));
             return rendererComponent;
         }
     }
@@ -92,7 +153,7 @@ public class BestScoresPanel extends JPanel {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component component = renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            component.setFont(component.getFont().deriveFont(Font.BOLD, 24f)); // Ustaw rozmiar czcionki dla nagłówków kolumn
+            component.setFont(component.getFont().deriveFont(Font.BOLD, 24f));
             return component;
         }
     }

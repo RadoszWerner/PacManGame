@@ -14,8 +14,7 @@ public class InkyAI implements AI{
     public void setDirection() {
         if(counter%100==0){
             Random random = new Random();
-            int randomNumber = random.nextInt(3) + 1;
-            chosenNumber = randomNumber;
+            chosenNumber = random.nextInt(3) + 1;
         }
         if(chosenNumber == 1) blinkyAI.setDirection();
         if(chosenNumber == 2) clydeAI.setDirection();

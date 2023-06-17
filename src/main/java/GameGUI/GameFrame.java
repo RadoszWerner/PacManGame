@@ -27,6 +27,8 @@ public class GameFrame extends JFrame{
     }
     void setGameFrameProperties(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon icon = new ImageIcon("assets/pacman.png");
+        setIconImage(icon.getImage());
         setLayout(new BorderLayout());
         setFocusable(true);
         requestFocus();

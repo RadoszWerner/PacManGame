@@ -1,7 +1,6 @@
 package GameGUI.Panels.Board;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 
 import Utils.GameConstants;
